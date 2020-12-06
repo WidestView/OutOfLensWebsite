@@ -9,7 +9,7 @@ namespace OutLensWebsiteTests
         [TestMethod]
         public void TestConnection()
         {
-            new DatabaseConnection().Run("select * from FUNCIONÁRIO");
+            new DatabaseConnection().Run("select * from FUNCIONï¿½RIO");
         }
     }
 }
