@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OutOfLensWebsite", "OutOfLensWebsite\OutOfLensWebsite.csproj", "{7665B970-E016-4FAF-A81D-D7F0CDC271E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutLensWebsiteTests", "OutLensWebsiteTests\OutLensWebsiteTests.csproj", "{9D319F45-79CD-4927-A12D-E0038D3942F6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutOfLensWebsiteTests", "OutOfLensWebsiteTests\OutOfLensWebsiteTests.csproj", "{9D319F45-79CD-4927-A12D-E0038D3942F6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

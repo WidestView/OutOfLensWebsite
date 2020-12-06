@@ -3,7 +3,7 @@ using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OutOfLensWebsite.Models;
 
-namespace OutLensWebsiteTests
+namespace OutOfLensWebsiteTests
 {
     [TestClass]
     public class EmployeeTest
