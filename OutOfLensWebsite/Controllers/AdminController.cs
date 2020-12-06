@@ -12,27 +12,28 @@ namespace OutOfLensWebsite.Controllers
             return View();
         }
 
-
-        public IActionResult Add(string form)
+        private IActionResult ResolveView(string prefix, string[] items, string subject)
         {
-            string[] validForms = {"insertion/customer"};
-
-            if (string.IsNullOrEmpty(form))
+            if (string.IsNullOrEmpty(subject))
             {
-                form = "customer";
+                if (!items.Any())
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return View(prefix + items.First());
+                }
             }
-
-            string path = "insertion/" + form;
-
-            if (validForms.Contains(path))
-            {
-                return View(path);
-            }
-            else
+     
+            if (!items.Contains(subject))
             {
                 return NotFound();
             }
-
+            else
+            {
+                return View(prefix + subject);
+            }
         }
 
         [HttpPost]
@@ -52,19 +53,15 @@ namespace OutOfLensWebsite.Controllers
                 return View("Index");
             }
         }
+        public IActionResult Add(string form)
+        {
+            return ResolveView("insertion/", new[] {"customer"}, form);
+
+        }
 
         public IActionResult Query(string table)
         {
-            string[] validTables = {"query/employee", "query/customer"};
-
-            if (string.IsNullOrEmpty(table))
-            {
-                table = "employee";
-            }
-
-            string path = "query/" + table;
-
-            return validTables.Contains(path) ? (IActionResult) View(path) : NotFound();
+            return ResolveView("query/", new[] {"employee", "customer"}, table);
         }
 
         public IActionResult Operation()
