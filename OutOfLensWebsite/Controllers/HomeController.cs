@@ -7,12 +7,6 @@ namespace OutOfLensWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly List<string> _brazilStates = new List<string>
-        {
-            "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", "MA", "MT", "MS", "MG", "PA", "PB",
-            "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"
-        };
-
         public ActionResult Index()
         {
             ViewBag.isLogged = true;
@@ -21,7 +15,7 @@ namespace OutOfLensWebsite.Controllers
         }
 
         [HttpPost]
-        public ActionResult SignUser(User user)
+        public ActionResult LoginUser(HomeModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -38,9 +32,5 @@ namespace OutOfLensWebsite.Controllers
 
         // MODELS CHECKING
 
-        public JsonResult CheckState(string state)
-        {
-            return Json(_brazilStates.Contains(state));
-        }
     }
 }

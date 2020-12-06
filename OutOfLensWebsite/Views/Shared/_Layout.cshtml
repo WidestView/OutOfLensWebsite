@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model Employee
 @{ViewBag.isLogged = false;}
 <head>
 	<link rel="apple-touch-icon" sizes="76x76" href="~/res/images/shared/ool/tinyLogo.png">
@@ -48,10 +48,13 @@
 				{
 				<button class="btn btn-primary ml-2" data-toggle="dropdown" id="loginDropdownButton">Entrar</button>
 				<div class="dropdown-menu dropdown-menu-right mt-2 mr-2" id="loginDropdown">
-					<form class="px-4 py-3">
+					@using (Html.BeginForm("/Home/Signup"))
+                    {
+
 						<div class="form-group">
 							<label for="loginDropdownEmail">Email address</label>
-							<input type="email" class="form-control" id="loginDropdownEmail" placeholder="email@exemplo.com">
+							@Html.TextBoxFor(x => x.Email, new { id = "loginDropDownEmail", @class = "form-control", placeholder = "email@example.com"})
+							
 						</div>
 						<div class="form-group">
 							<label for="loginDropdownLogin">Password</label>
@@ -60,9 +63,9 @@
 						<div class="d-flex justify-content-start">
 							<button type="submit" class="btn btn-primary mt-3">Entrar</button>
 						</div>
-					</form>
+                    }
 				</div>
-				}
+                    }
 				}
 			</div>
 		</div>
