@@ -1,10 +1,10 @@
-@model string
+﻿
+@model Employee
 
 @{
     ViewBag.Title = "Cadastro";
     Layout = "_AdminLayout";
 }
-
 
 <div id="content" style="width:100%;">
 
@@ -46,7 +46,7 @@
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="#"> Cliente </a>
-                    <a class="dropdown-item" href="/Admin/add/Employee"> Funcionário </a>
+                    <a class="dropdown-item" href="#"> Funcionário </a>
                     <a class="dropdown-item" href="#"> Serviço </a>
                 </div>
             </div>
@@ -57,7 +57,7 @@
 
             <div class="col-3">
 
-                <h5 class="text-center my-3"> Informações do Cliente </h5>
+                <h5 class="text-center my-3"> Informações do Funcionário </h5>
 
             </div>
 
@@ -121,6 +121,24 @@
 
                 </div>
 
+                <div class="form-row justify-content-center">
+
+                    <div class="form-group col-md-2 com-sm-12">
+                        <label for="inputNv"> Nv. Acesso </label>
+                        <select id="inputNv" class="form-control">
+                            <option selected>Não Informar</option>
+                            <option> 1 </option>
+                            <option> 0 </option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-2 com-sm-12">
+                        <label for="inputRFID"> RFID </label>
+                        <input type="text" class="form-control" id="inputRFID">
+                    </div>
+
+                </div>
+
             </form>
 
         </div>
@@ -136,3 +154,4 @@
     </div>
 
 </div>
+

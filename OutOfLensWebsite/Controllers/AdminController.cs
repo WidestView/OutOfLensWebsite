@@ -14,7 +14,13 @@ namespace OutOfLensWebsite.Controllers
 
         private IActionResult ResolveView(string prefix, string[] items, string subject)
         {
+<<<<<<< Updated upstream
             if (string.IsNullOrEmpty(subject))
+=======
+            string[] validForms = {"insertion/customer", "insertion/employee"};
+
+            if (string.IsNullOrEmpty(form))
+>>>>>>> Stashed changes
             {
                 if (!items.Any())
                 {
