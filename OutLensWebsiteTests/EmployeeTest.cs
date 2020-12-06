@@ -20,7 +20,7 @@ namespace OutLensWebsiteTests
                 Name = "bob",
                 Password = "bobb",
                 Phone = "40028922q,",
-                BirthDate = DateTime.Now,
+                BirthDate = new DateTime(1970, 1, 1),
                 Rfid = "abc",
                 Rg = "12345",
                 AccessLevel = 10,
@@ -32,6 +32,8 @@ namespace OutLensWebsiteTests
             using var database = new DatabaseConnection();
              
             var reference = employee.Register(database);
+
+            reference = new TableReference<Employee>(Employee.From, reference.Identifier, database);
 
             Assert.AreEqual(reference.Identifier, employee.Id);
 
