@@ -103,3 +103,7 @@ a[data-toggle="collapse"] {
     }
 
 }
+
+#back_home:hover{
+    color: #999;
+}
