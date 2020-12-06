@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using OutOfLens_ASP.Models;
 
 namespace OutOfLensWebsite.Models
 {
@@ -61,7 +60,7 @@ namespace OutOfLensWebsite.Models
             ATIVO as 'is_active',
             RFID as 'rfid',
             NÍVEL_ACESSO as 'access_level'
-            from FUNCIONÁRIO inner join USUÁRIO U on FUNCIONÁRIO.CÓDIGO_USUÁRIO = U.CÓDIGO
+            from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
             where FUNCIONÁRIO.CÓDIGO = @id limit 1";
 
             var result = database.Query(command, new Dictionary<string, object>
@@ -80,7 +79,7 @@ namespace OutOfLensWebsite.Models
         public static TableReference<Employee> FromRfid(string rfid, DatabaseConnection database)
         {
             string query =
-                "select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO inner join USUÁRIO U on FUNCIONÁRIO.CÓDIGO_USUÁRIO = U.CÓDIGO where RFID = @rfid";
+                "select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO where RFID = @rfid";
 
             int? id = (int?) database.Run(query, new Dictionary<string, object>
             {
@@ -104,10 +103,10 @@ namespace OutOfLensWebsite.Models
         /// of the resulting TableReference</remarks>
         public TableReference<Employee> Register(DatabaseConnection database)
         {
-            string command = @"insert into USUÁRIO 
-            (NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL, EMAIL, SENHA)
+            string command = @"insert into PESSOA 
+            (NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL, EMAIL)
             values 
-            (@name, @social_name, @gender, @rg, @cpf, @birth_date, @phone, @cellphone, @email, @password)";
+            (@name, @social_name, @gender, @rg, @cpf, @birth_date, @phone, @cellphone, @email)";
 
 
             database.Run(command, new Dictionary<string, object>
@@ -127,15 +126,16 @@ namespace OutOfLensWebsite.Models
             int userId = (int) database.GetLastInsertionId();
 
             command = @"insert into FUNCIONÁRIO
-            (CÓDIGO_USUÁRIO, NÍVEL_ACESSO, RFID)
+            (CÓDIGO_USUÁRIO, NÍVEL_ACESSO, RFID, SENHA)
             values 
-           (@user_id, @access_level, @rfid)";
+           (@user_id, @access_level, @rfid, @password)";
 
             database.Run(command, new Dictionary<string, object>
             {
                 ["user_id"] = userId,
                 ["access_level"] = AccessLevel,
-                ["rfid"] = Rfid
+                ["rfid"] = Rfid,
+                ["password"] = Password
             });
 
             Id = (int) database.GetLastInsertionId();
@@ -160,7 +160,7 @@ namespace OutOfLensWebsite.Models
             ATIVO as 'is_active',
             RFID as 'rfid',
             NÍVEL_ACESSO as 'access_level'
-            from FUNCIONÁRIO inner join USUÁRIO U on FUNCIONÁRIO.CÓDIGO_USUÁRIO = U.CÓDIGO";
+            from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO";
             
             var result = database.Query(command);
             
@@ -172,6 +172,30 @@ namespace OutOfLensWebsite.Models
             }
 
             return employees;
+        }
+
+        public static TableReference<Employee> Login(string email, string password, DatabaseConnection database)
+        {
+            string command = @"
+            select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO
+                inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
+            where EMAIL = @email and SENHA = @password
+            ";
+
+            object result = database.Run(command, new Dictionary<string, object>
+            {
+                ["email"] = email,
+                ["password"] = password
+            });
+
+            if (result == null)
+            {
+                return null;
+            }
+
+            int id = (int) result;
+            
+            return new TableReference<Employee>(From, id, database);
         }
     }
 }
