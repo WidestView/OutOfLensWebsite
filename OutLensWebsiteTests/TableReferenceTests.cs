@@ -12,7 +12,7 @@ namespace OutLensWebsiteTests
         {
             TableReference<string> subject = new TableReference<string>(1, "beep");
 
-            Assert.AreEqual(subject.Reference, 1);
+            Assert.AreEqual(subject.Reference, "beep");
             Assert.AreEqual(subject.Identifier, 1);
         }
 
