@@ -67,12 +67,13 @@ namespace OutOfLensWebsite.Models
             var result = new List<Dictionary<string, object>>();
 
             using var command = new MySqlCommand(query, _connection);
-            using var reader = command.ExecuteReader();
 
             foreach (var parameter in parameters)
             {
                 command.Parameters.AddWithValue(parameter.Key, parameter.Value);
             }
+            
+            using var reader = command.ExecuteReader();
 
             while (reader.Read())
             {
