@@ -1,15 +1,26 @@
-﻿@model User
+﻿@model HomeModel
+
 @{
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
 	ViewBag.THIS_URL = Context.Request.Path;
+	ViewBag.isLogged = Model.Employee != null;
 }
 <link rel="stylesheet" type="text/css" href="~/css/homeStyle.css">
 <div class="container-fluid" id="page">
 	<div class="row">
 		<div id="img-fixed">
-			<h1 id="titulo-home" class="d-flex justify-content-center text-white" style="margin-top:200px;"> OI BEZERRA </h1>
+			<h1 id="titulo-home" class="d-flex justify-content-center" style="margin-top:200px;">
+				@if (ViewBag.isLogged)
+				{
+					<span class="text-white"> Olá, @Model.Employee?.Name </span>
+				}
+				else
+				{
+					<span class="text-white"> Olá </span>
+				}
+			</h1>
 		</div> 
 	</div>
 	<div class="row mx-5" style="margin-top:100px;">

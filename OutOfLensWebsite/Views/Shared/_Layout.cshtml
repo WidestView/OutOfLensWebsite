@@ -1,5 +1,5 @@
-﻿@model Employee
-@{ViewBag.isLogged = false;}
+﻿@model HomeModel
+@{ViewBag.isLogged = Model.Employee != null;}
 <head>
 	<link rel="apple-touch-icon" sizes="76x76" href="~/res/images/shared/ool/tinyLogo.png">
 	<link rel="icon" type="image/x-icon" href="~/res/images/shared/ool/favicon.ico">
@@ -39,27 +39,37 @@
 				@{
 				if (ViewBag.isLogged)
 				{
-				<div class="d-flex justify-content-center pt-auto ml-lg-auto mb-3 mb-lg-0 mt-3 mt-lg-0">
-					<p class="mr-4 mt-auto mb-auto text-white"> Filipi Bezera </p>
-					<button class="btn btn-danger mr-2"> Sair </button>
-				</div>
+					using (@Html.BeginForm("LogOut", "Home"))
+					{
+						<div class="d-flex justify-content-center pt-auto ml-lg-auto mb-3 mb-lg-0 mt-3 mt-lg-0">
+							<p class="mr-4 mt-auto mb-auto text-white"> @Model.Employee?.Name </p>
+							<button type="submit" class="btn btn-danger mr-2"> Sair </button>
+						</div>
+					}
+				
 				}
 				else
 				{
 				<button class="btn btn-primary ml-2" data-toggle="dropdown" id="loginDropdownButton">Entrar</button>
 				<div class="dropdown-menu dropdown-menu-right mt-2 mr-2" id="loginDropdown">
-					@using (Html.BeginForm("/Home/Signup"))
+					@using (Html.BeginForm("LoginUser", "Home", null,
+						FormMethod.Post, null, new { @class = "px-3 py-3"}))
                     {
 
 						<div class="form-group">
-							<label for="loginDropdownEmail">Email address</label>
-							@Html.TextBoxFor(x => x.Email, new { id = "loginDropDownEmail", @class = "form-control", placeholder = "email@example.com"})
+							@Html.LabelFor(x => x.LoginData.Email, "Endereço de email")
+							@Html.TextBoxFor(x => x.LoginData.Email, 
+								new { @class = "form-control", placeholder = "email@example.com"})
 							
 						</div>
+						
 						<div class="form-group">
-							<label for="loginDropdownLogin">Password</label>
-							<input type="password" class="form-control" id="loginDropdownLogin" placeholder="Senha">
+							@Html.LabelFor(x => x.LoginData.Password, "Senha")
+							
+							@Html.TextBoxFor(x => x.LoginData.Password,
+								new  { type = "password", @class="form-control", placeholder = "Senha"})
 						</div>
+						
 						<div class="d-flex justify-content-start">
 							<button type="submit" class="btn btn-primary mt-3">Entrar</button>
 						</div>
