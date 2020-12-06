@@ -1,0 +1,13 @@
+#navbar #navbar-logo {
+  width: 200px;
+}
+#navbar .navbar-nav .nav-item {
+  font-size: 1.1rem;
+  padding-left: 0.8rem;
+  padding-right: 0.4rem;
+}
+#navbar #nav-cad {
+  margin-left: auto;
+}
+
+/*# sourceMappingURL=navStyle.css.map */
