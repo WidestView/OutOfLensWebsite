@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Text.Json.Serialization;
-using OutOfLens_ASP.Controllers;
 
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class ArduinoLogRequest
     {

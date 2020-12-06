@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using OutOfLens_ASP.Models;
 
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class Employee
     {

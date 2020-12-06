@@ -1,8 +1,9 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OutOfLens_ASP.Models;
+using OutOfLensWebsite.Models;
 
-namespace OutOfLens_ASP.Controllers
+namespace OutOfLensWebsite.Controllers
 {
     public class AdminController : Controller
     {

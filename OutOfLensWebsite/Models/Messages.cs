@@ -1,4 +1,4 @@
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class Messages
     {

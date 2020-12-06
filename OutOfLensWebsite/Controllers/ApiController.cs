@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
 using OutOfLens_ASP.Models;
+using OutOfLensWebsite.Models;
 
-namespace OutOfLens_ASP.Controllers
+namespace OutOfLensWebsite.Controllers
 {
     public class ApiController : Controller
     {

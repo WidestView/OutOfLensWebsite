@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using OutOfLens_ASP.Models;
+using OutOfLensWebsite.Models;
 
 namespace OutLensWebsiteTests
 {

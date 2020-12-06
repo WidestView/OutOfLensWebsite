@@ -4,7 +4,7 @@ using System.Data;
 using System.Linq;
 using MySql.Data.MySqlClient;
 
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class DatabaseConnection : IDisposable
     {

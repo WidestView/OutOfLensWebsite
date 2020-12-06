@@ -1,6 +1,6 @@
 using System;
 
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class TableReference<T> where T : class
     {
