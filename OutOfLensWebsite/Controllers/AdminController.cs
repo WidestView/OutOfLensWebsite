@@ -55,7 +55,7 @@ namespace OutOfLensWebsite.Controllers
         }
         public IActionResult Add(string form)
         {
-            return ResolveView("insertion/", new[] {"customer"}, form);
+            return ResolveView("insertion/", new[] {"customer", "employee"}, form);
 
         }
 
