@@ -1,5 +1,5 @@
 ﻿@model User
-@{ViewBag.isLogged = true;}
+@{ViewBag.isLogged = false;}
 <head>
 	<link rel="apple-touch-icon" sizes="76x76" href="~/res/images/shared/ool/tinyLogo.png">
 	<link rel="icon" type="image/x-icon" href="~/res/images/shared/ool/favicon.ico">
@@ -32,13 +32,7 @@
 					<a class="nav-link" href="@ViewBag.THIS_URL">Home <span class="sr-only">(current)</span></a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#contato">Contato</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#sobre">Sobre</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="#portifolio">Portifólio</a>
+					<a class="nav-link" href="/Admin">Administração</a>
 				</li>
 			</ul>
 			<div id="nav-cad">
@@ -47,14 +41,7 @@
 				{
 				<div class="d-flex justify-content-center pt-auto ml-lg-auto mb-3 mb-lg-0 mt-3 mt-lg-0">
 					<p class="mr-4 mt-auto mb-auto text-white"> Filipi Bezera </p>
-					<div class="dropdown mr-4 ">
-						<img alt="Login" src="~/res/images/shared/general/avatar.jpg" class="avatar" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<div class="dropdown-menu dropdown-menu-lg-right mt-4" aria-labelledby="dropdownMenuLink">
-							<a class="dropdown-item" href="#">Action</a>
-							<a class="dropdown-item" href="#">Another action</a>
-							<a class="dropdown-item" href="#">Something else here</a>
-						</div>
-					</div> 
+					<button class="btn btn-danger mr-2"> Sair </button>
 				</div>
 				}
 				else
@@ -70,19 +57,10 @@
 							<label for="loginDropdownLogin">Password</label>
 							<input type="password" class="form-control" id="loginDropdownLogin" placeholder="Senha">
 						</div>
-						<div class="form-check">
-							<input type="checkbox" class="form-check-input" id="dropdownCheck">
-							<label class="form-check-label" for="dropdownCheck">
-								Lembre de Mim
-							</label>
-						</div>
 						<div class="d-flex justify-content-start">
 							<button type="submit" class="btn btn-primary mt-3">Entrar</button>
 						</div>
 					</form>
-					<div class="dropdown-divider"></div>
-					<a class="dropdown-item" href="#" data-toggle="modal" data-target="#registerModal">Ainda não tem uma conta? Se registre aqui.</a>
-					<a class="dropdown-item" href="#">Esqueceu a senha?</a>
 				</div>
 				}
 				}
