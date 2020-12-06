@@ -94,6 +94,13 @@ namespace OutOfLens_ASP.Models
             return null;
         }
 
+        /// <summary>
+        /// Registers the employee in the database.
+        /// </summary>
+        /// <param name="database">The database connection in which to store the data</param>
+        /// <returns>A table reference to the newly inserted Employee.</returns>
+        /// <remarks>The Id property is updated to match the inserted one, which equals the Identifier
+        /// of the resulting TableReference</remarks>
         public TableReference<Employee> Register(DatabaseConnection database)
         {
             string command = @"insert into USUÁRIO 
@@ -129,8 +136,10 @@ namespace OutOfLens_ASP.Models
                 ["access_level"] = AccessLevel,
                 ["rfid"] = Rfid
             });
+
+            Id = (int) database.GetLastInsertionId();
             
-            return new TableReference<Employee>((int) database.GetLastInsertionId(), this);
+            return new TableReference<Employee>(Id, this);
         }
 
         public static IEnumerable<Employee> ListFrom(DatabaseConnection database)

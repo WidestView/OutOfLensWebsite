@@ -20,7 +20,8 @@ namespace OutOfLens_ASP.Models
         {
             Identifier = id;
 
-            _reference = reference;
+            _reference = reference ?? throw new ArgumentNullException(nameof(reference),
+                "If a null TableReference is desired, use null instead.");
             _referenceBuilder = null;
             _database = null;
         }
