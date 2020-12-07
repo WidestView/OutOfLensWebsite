@@ -5,9 +5,6 @@ namespace OutOfLensWebsite.Models
 {
     public class ArduinoLogRequest
     {
-        public const char RfidLogChar = 'r';
-
-        private const string EncryptionKey = "527be398166707a4f4edbffd02f3d335";
         private const string CredentialPassword = "5eeb219ebc72cd90a4020538b28593fbfac63d2e0a8d6ccf6c28c21c97f00ea6";
 
 
@@ -21,7 +18,7 @@ namespace OutOfLensWebsite.Models
 
         public string RfidData()
         {
-            if (Data.Length < 2 || Data[0] != RfidLogChar)
+            if (Data.Length < 3 || !Data.StartsWith("r "))
             {
                 throw new InvalidOperationException("ArduinoLogRequest is not rfid");
             }

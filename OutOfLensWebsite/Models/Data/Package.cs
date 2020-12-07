@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OutOfLensWebsite.Models.Data
 {
@@ -28,16 +26,15 @@ namespace OutOfLensWebsite.Models.Data
         [Required(ErrorMessage = "O preço é obrigatório")]
         public string Price { get; set; }
         
-        [Required(ErrorMessage = "A observação é obrigatória")]
-        public string Observation { get; set; }
+      
         
 
         public void Insert(DatabaseConnection connection)
         {
             connection.Run(@"
                 insert into PACOTE (CÓDIGO_TIPO_PACOTE, VALOR, QUALIDADE, QUANTIDADE, TAMANHO_A, TAMANHO_L,
-                                    DISPONÍVEL, OBSERVAÇÃO)
-                values (@type_id, @price, @quality, @quantity, @height, @width, @available, @observation)",
+                                    DISPONÍVEL, DESCRIÇÃO)
+                values (@type_id, @price, @quality, @quantity, @height, @width, @available, @description)",
                 new Dictionary<string, object>
                 {
                     ["type_id"] = Type,
@@ -47,7 +44,7 @@ namespace OutOfLensWebsite.Models.Data
                     ["height"] = PhotoHeight,
                     ["width"] = PhotoWidth,
                     ["available"] = true,
-                    ["observation"] = Observation,
+                    ["description"] = Description,
                 });
         }
         

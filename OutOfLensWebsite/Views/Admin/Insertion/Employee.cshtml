@@ -1,4 +1,6 @@
-﻿@model OutOfLensWebsite.Models.Data.Employee
+﻿@using OutOfLens_ASP.Models
+@using OutOfLensWebsite.Models.Data
+@model OutOfLensWebsite.Models.Data.Employee
 
 @{
     ViewBag.Title = "Cadastro";
@@ -94,6 +96,18 @@
                         @Html.LabelFor(x => x.AccessLevel, "Nivel de Acesso")
                         @Html.TextBoxFor(x => x.AccessLevel, new {@class = "form-control", type = "number"})
                     </div>
+                    
+                        <div class="form-group col-md-2 com-sm-12">
+                            @Html.LabelFor(x => x.Role.Identifier, "Cargo")
+                            
+                            @{
+                                using var connection = new DatabaseConnection();
+                            }
+                            
+                            @Html.DropDownListFor(x => x.Role.Identifier,
+                                Employee.ListRoles(connection), new { @class = "form-control"})
+                            
+                        </div>
 
                     <div class="form-group col-md-2 com-sm-12">
                         @Html.LabelFor(x => x.Rfid, "RFID")

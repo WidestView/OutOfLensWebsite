@@ -62,6 +62,20 @@ namespace OutOfLensWebsite.Models
             return result;
         }
 
+        public List<IEnumerable<object>> LinearQuery(string query)
+        {
+            var result = new List<IEnumerable<object>>();
+            
+            using var command = new MySqlCommand(query, _connection);
+            using var reader = command.ExecuteReader();
+
+            while (reader.Read())
+            {
+                result.Add(Enumerable.Range(0, reader.FieldCount).Select(reader.GetValue));
+            }
+            return result;
+        }
+
         public List<Dictionary<string, object>> Query(string query, Dictionary<string, object> parameters)
         {
             var result = new List<Dictionary<string, object>>();

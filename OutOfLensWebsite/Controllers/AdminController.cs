@@ -135,6 +135,17 @@ namespace OutOfLensWebsite.Controllers
         [HttpGet]
         public IActionResult Query(string id)
         {
+            using var connection = new DatabaseConnection();
+            
+            if (id == null || id.ToLower() == "Employee".ToLower())
+            {
+                return View("Query/Employee", new TableViewModel
+                {
+                    Data = Employee.GetTable(connection),
+                    Labels = typeof(Employee).GetProperties().Select(x => x.Name)
+                });
+            }
+            
             return ResolveView("Query/", new[] {"Employee", "Customer"}, id);
         }
 

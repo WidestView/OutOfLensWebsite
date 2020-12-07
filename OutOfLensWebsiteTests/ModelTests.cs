@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OutOfLens_ASP.Models;
 using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
@@ -9,6 +11,19 @@ namespace OutOfLensWebsiteTests
     [TestClass]
     public class ModelTests
     {
+        
+        [TestMethod]
+        public void TestRoleInsertion()
+        {
+            var connection = new DatabaseConnection();
+
+            connection.Run(@"
+            insert into CARGO (NOME, DESCRIÇÃO) values
+            ('Person', 'Regular Person'),
+            ('Dude', 'Regular Dude'),
+            ('Yolo', 'aaaaaa')
+            ");
+        }
         [TestMethod]
         public void TestEmployeeInsertion()
         {
@@ -26,7 +41,12 @@ namespace OutOfLensWebsiteTests
                 Rg = "12345",
                 AccessLevel = 10,
                 IsActive = true,
-                SocialName = "bob"
+                SocialName = "bob",
+                Role = new TableReference<string>
+                {
+                    Identifier = 7
+                },
+                
             };
 
 
@@ -38,7 +58,7 @@ namespace OutOfLensWebsiteTests
 
             Assert.AreEqual(reference.Identifier, employee.Id);
 
-            foreach (PropertyInfo info in typeof(Employee).GetProperties())
+            foreach (PropertyInfo info in typeof(Employee).GetProperties().SkipLast(1))
             {
                 Assert.AreEqual(info.GetValue(employee), info.GetValue(reference.Reference));
             }
@@ -66,7 +86,6 @@ namespace OutOfLensWebsiteTests
             Package package = new Package
             {
                 Description = "a package",
-                Observation = "boop",
                 PhotoHeight = 10,
                 PhotoWidth = 10,
                 Price = "10",
@@ -113,7 +132,7 @@ namespace OutOfLensWebsiteTests
                 Description =  "aaaaa",
                 Order = new TableReference<Order>
                 {
-                    Identifier = 2
+                    Identifier = 1
                 },
                 StartTime = new DateTime(1970, 1, 1),
                 EndTime =  new DateTime(1970, 1, 1),
@@ -123,6 +142,21 @@ namespace OutOfLensWebsiteTests
             
             session.Insert(connection);
         }
+
+        [TestMethod]
+        public void TestShiftInsertion()
+        {
+            DatabaseConnection connection = new DatabaseConnection();
+            
+            var shift = EmployeeShift.From(new ArduinoLogRequest
+            {
+                Data = "r 123",
+                Password = "5eeb219ebc72cd90a4020538b28593fbfac63d2e0a8d6ccf6c28c21c97f00ea6"
+            }, connection);
+            
+            shift.RegisterUsing(connection);
+        }
+
 
         public void TestReportInsertion()
         {

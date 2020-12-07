@@ -16,14 +16,19 @@
 
     <tbody>
     
+    
         @foreach (var row in Model.Data)
         {
+            <tr>
+                
             <th scope="row"> @row.First().Value </th>
             
-            foreach (var pair in row.Skip(1))
+            @foreach (var pair in row.Skip(1))
             {
-                @pair.Value
+                <td> @pair.Value </td>
             }
+    
+            </tr>
         }
 
     </tbody>

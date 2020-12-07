@@ -9,52 +9,56 @@ namespace OutOfLensWebsite.Models.Data
     public class Employee
     {
         public int Id { get; private set; }
-        
+
         [Required(ErrorMessage = "O nome é obrigatório")]
-        
+
         public string Name { get; set; }
-        
+
         [Required(ErrorMessage = "O nome social é obrigatório")]
         public string SocialName { get; set; }
-        
+
         [Required(ErrorMessage = "O nome social é obrigatório")]
         public string Gender { get; set; }
-        
+
         [Required(ErrorMessage = "O RG é obrigatório")]
         public string Rg { get; set; }
-        
+
         [Required(ErrorMessage = "O CPF é obrigatório")]
         [MinLength(11, ErrorMessage = "O CPF deve ter 11 caracteres")]
         [MaxLength(11, ErrorMessage = "O CPF deve ter 11 caracteres")]
         [RegularExpression("^\\d{11}$", ErrorMessage = "CPF inválido")]
         public string Cpf { get; set; }
-        
+
         [Required(ErrorMessage = "A data de nascimento é obrigatória")]
         public DateTime BirthDate { get; set; }
-        
+
         [Required(ErrorMessage = "O telefone é obrigatório")]
         [RegularExpression("^\\d+$", ErrorMessage = "O celular aceita apenas caracteres numéricos")]
         public string Phone { get; set; }
-        
+
         [Required(ErrorMessage = "O celular é obrigatório")]
         [RegularExpression("^\\d+$", ErrorMessage = "O celular aceita apenas caracteres numéricos")]
         public string Cellphone { get; set; }
-        
+
         [Required(ErrorMessage = "O email é obrigatório")]
         [EmailAddress(ErrorMessage = "Email inválido")]
         public string Email { get; set; }
-        
+
         [Required(ErrorMessage = "A senha é obrigatória")]
         [MinLength(8, ErrorMessage = "A senha precisa de pelo menos 8 caracteres")]
         public string Password { get; set; }
-        
+
         public bool IsActive { get; set; }
-        
+
         [Required(ErrorMessage = "O RFID é obrigatório")]
         public string Rfid { get; set; }
-        
+
         [Required(ErrorMessage = "O nivel de acesso é obrigatório")]
         public int AccessLevel { get; set; }
+
+        [Required(ErrorMessage = "O cargo é obrigatório")]
+
+        public TableReference<string> Role { get; set; }
 
         public Employee()
         {
@@ -76,11 +80,15 @@ namespace OutOfLensWebsite.Models.Data
             IsActive = (bool) source["is_active"];
             Rfid = (string) source["rfid"];
             AccessLevel = (int) source["access_level"];
+
+            Role = new TableReference<string>
+            {
+                Identifier = (int) source["role_id"]
+            };
         }
 
         public static Employee From(int id, DatabaseConnection database)
         {
-            
             string command = @"select
             FUNCIONÁRIO.CÓDIGO as 'id',
             NOME as 'name',
@@ -95,7 +103,8 @@ namespace OutOfLensWebsite.Models.Data
             SENHA as 'password',
             ATIVO as 'is_active',
             RFID as 'rfid',
-            NÍVEL_ACESSO as 'access_level'
+            NÍVEL_ACESSO as 'access_level',
+            CÓDIGO_CARGO as 'role_id'
             from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
             where FUNCIONÁRIO.CÓDIGO = @id limit 1";
 
@@ -108,7 +117,7 @@ namespace OutOfLensWebsite.Models.Data
             {
                 throw new KeyNotFoundException($"ID {id} was not found.");
             }
-            
+
             return new Employee(result[0]);
         }
 
@@ -162,20 +171,21 @@ namespace OutOfLensWebsite.Models.Data
             int userId = (int) database.GetLastInsertionId();
 
             command = @"insert into FUNCIONÁRIO
-            (CÓDIGO_USUÁRIO, NÍVEL_ACESSO, RFID, SENHA)
+            (CÓDIGO_USUÁRIO, NÍVEL_ACESSO, RFID, SENHA, CÓDIGO_CARGO)
             values 
-           (@user_id, @access_level, @rfid, @password)";
+           (@user_id, @access_level, @rfid, @password, @role_id)";
 
             database.Run(command, new Dictionary<string, object>
             {
                 ["user_id"] = userId,
                 ["access_level"] = AccessLevel,
                 ["rfid"] = Rfid,
-                ["password"] = Password
+                ["password"] = Password,
+                ["role_id"] = Role.Identifier
             });
 
             Id = (int) database.GetLastInsertionId();
-            
+
             return new ImmutableTableReference<Employee>(Id, this);
         }
 
@@ -195,13 +205,14 @@ namespace OutOfLensWebsite.Models.Data
             SENHA as 'password',
             ATIVO as 'is_active',
             RFID as 'rfid',
-            NÍVEL_ACESSO as 'access_level'
+            NÍVEL_ACESSO as 'access_level',
+            CÓDIGO_CARGO as 'role_id'
             from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO";
-            
+
             var result = database.Query(command);
-            
+
             List<Employee> employees = new List<Employee>();
-            
+
             foreach (var row in result)
             {
                 employees.Add(new Employee(row));
@@ -210,7 +221,8 @@ namespace OutOfLensWebsite.Models.Data
             return employees;
         }
 
-        public static ImmutableTableReference<Employee> Login(string email, string password, DatabaseConnection database)
+        public static ImmutableTableReference<Employee> Login(string email, string password,
+            DatabaseConnection database)
         {
             string command = @"
             select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO
@@ -230,7 +242,7 @@ namespace OutOfLensWebsite.Models.Data
             }
 
             int id = (int) result;
-            
+
             return new ImmutableTableReference<Employee>(From, id, database);
         }
 
@@ -240,9 +252,26 @@ namespace OutOfLensWebsite.Models.Data
                 select NOME as 'name', FUNCIONÁRIO.CÓDIGO as 'id'
                 from FUNCIONÁRIO
                     inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO").Select(
-                
-                row =>  new SelectListItem((string) row["name"], row["id"].ToString())
+                row => new SelectListItem((string) row["name"], row["id"].ToString())
             );
+        }
+
+        public static IEnumerable<SelectListItem> ListRoles(DatabaseConnection connection)
+        {
+            return connection.Query("select NOME as 'name', CÓDIGO as 'id' from CARGO").Select(
+                row => new SelectListItem((string) row["name"], row["id"].ToString())
+            );
+        }
+
+        public static IEnumerable<Dictionary<string, object>> GetTable(DatabaseConnection connection)
+        {
+            return connection.Query(@"
+            select
+            FUNCIONÁRIO.CÓDIGO,
+           NÍVEL_ACESSO, RFID, CÓDIGO_CARGO, NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL,
+                   EMAIL, ATIVO from FUNCIONÁRIO
+                inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
+            ");
         }
     }
 }
