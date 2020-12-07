@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OutOfLensWebsite.Models
 {
@@ -20,14 +21,34 @@ namespace OutOfLensWebsite.Models
         }
         
         public int Id { get; private set; }
+        
+        [Required(ErrorMessage = "O nome  é obrigatório")]
         public string Name { get; set; }
+        
+        [Required(ErrorMessage = "O nome social é obrigatório")]
         public string SocialName { get; set; }
+        
+        [Required(ErrorMessage = "O sexo é obrigatório")]
         public string Gender { get; set; }
+        
+        [Required(ErrorMessage = "O CPF é obrigatório")]
         public string Cpf { get; set; }
+        
+        [Required(ErrorMessage = "O RG é obrigatório")]
         public string Rg { get; set; }
+        
+        [Required(ErrorMessage = "A data de nascimento é obrigatória")]
         public DateTime BirthDate { get; set; }
+        
+        [Required(ErrorMessage = "O telefone é obrigatório")]
+        [MinLength(8, ErrorMessage = "Telefone muito curto (tamanho inválido)")]
         public string Phone { get; set; }
+        
+        [Required(ErrorMessage = "O celular é obrigatório")]
         public string CellPhone { get; set; }
+        
+        [Required(ErrorMessage = "O email é obrigatório")]
+        [EmailAddress(ErrorMessage = "Insira um email válido")]
         public string Email { get; set; }
 
         public TableReference<Customer> Insert(DatabaseConnection database)

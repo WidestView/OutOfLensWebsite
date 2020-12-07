@@ -53,6 +53,24 @@ namespace OutOfLensWebsite.Controllers
                 return View("Index");
             }
         }
+
+        [HttpPost]
+        public IActionResult AddCustomer(Customer customer)
+        {
+            if (ModelState.IsValid)
+            {
+                using var database = new DatabaseConnection();
+
+                customer.Insert(database);
+
+                return View("Index");
+            }
+            else
+            {
+                return View("Insertion/Customer");
+            }
+            
+        }
         
         public IActionResult Add(string id)
         {
