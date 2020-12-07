@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsite.Models
 {
-    public class HomeModel
+    public class HomeViewModel
     {
         public Employee Employee { get; set; }
         public Login LoginData { get; set; }
