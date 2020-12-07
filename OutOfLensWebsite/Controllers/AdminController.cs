@@ -41,7 +41,7 @@ namespace OutOfLensWebsite.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return NotFound();
+                return View("Insertion/Employee");
             }
             else
             {

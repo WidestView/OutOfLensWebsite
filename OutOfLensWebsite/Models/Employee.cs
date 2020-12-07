@@ -1,23 +1,57 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OutOfLensWebsite.Models
 {
     public class Employee
     {
         public int Id { get; private set; }
+        
+        [Required(ErrorMessage = "O nome é obrigatório")]
+        
         public string Name { get; set; }
+        
+        [Required(ErrorMessage = "O nome social é obrigatório")]
         public string SocialName { get; set; }
+        
+        [Required(ErrorMessage = "O nome social é obrigatório")]
         public string Gender { get; set; }
+        
+        [Required(ErrorMessage = "O RG é obrigatório")]
         public string Rg { get; set; }
+        
+        [Required(ErrorMessage = "O CPF é obrigatório")]
+        [MinLength(11, ErrorMessage = "O CPF deve ter 11 caracteres")]
+        [MaxLength(11, ErrorMessage = "O CPF deve ter 11 caracteres")]
+        [RegularExpression("^\\d{11}$", ErrorMessage = "CPF inválido")]
         public string Cpf { get; set; }
+        
+        [Required(ErrorMessage = "A data de nascimento é obrigatória")]
         public DateTime BirthDate { get; set; }
+        
+        [Required(ErrorMessage = "O telefone é obrigatório")]
+        [RegularExpression("^\\d+$", ErrorMessage = "O celular aceita apenas caracteres numéricos")]
         public string Phone { get; set; }
+        
+        [Required(ErrorMessage = "O celular é obrigatório")]
+        [RegularExpression("^\\d+$", ErrorMessage = "O celular aceita apenas caracteres numéricos")]
         public string Cellphone { get; set; }
+        
+        [Required(ErrorMessage = "O email é obrigatório")]
+        [EmailAddress(ErrorMessage = "Email inválido")]
         public string Email { get; set; }
+        
+        [Required(ErrorMessage = "A senha é obrigatória")]
+        [MinLength(8, ErrorMessage = "A senha precisa de pelo menos 8 caracteres")]
         public string Password { get; set; }
+        
         public bool IsActive { get; set; }
+        
+        [Required(ErrorMessage = "O RFID é obrigatório")]
         public string Rfid { get; set; }
+        
+        [Required(ErrorMessage = "O nivel de acesso é obrigatório")]
         public int AccessLevel { get; set; }
 
         public Employee()
