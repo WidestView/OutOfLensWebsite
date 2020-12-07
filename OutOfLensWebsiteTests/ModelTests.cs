@@ -28,10 +28,10 @@ namespace OutOfLensWebsiteTests
                 IsActive = true,
                 SocialName = "bob"
             };
-            
+
 
             using var database = new DatabaseConnection();
-             
+
             var reference = employee.Register(database);
 
             reference = new TableReference<Employee>(Employee.From, reference.Identifier, database);
@@ -44,11 +44,38 @@ namespace OutOfLensWebsiteTests
             }
         }
 
+        [TestMethod]
+        public void TestPackageTypeInsertion()
+        {
+            PackageType type = new PackageType
+            {
+                Name = "type first",
+                Description = "description"
+            };
+            
+            using var connection = new DatabaseConnection();
+            
+            type.Insert(connection);
+        }
+
+        [TestMethod]
         public void TestPackageInsertion()
         {
+            DatabaseConnection connection = new DatabaseConnection();
+
+            Package package = new Package
+            {
+                Description = "a package",
+                Observation = "boop",
+                PhotoHeight = 10,
+                PhotoWidth = 10,
+                Price = "10",
+                Quality = "good",
+                Quantity = 10,
+                Type = 1
+            };
             
+            package.Insert(connection);
         }
-    
-        
     }
 }

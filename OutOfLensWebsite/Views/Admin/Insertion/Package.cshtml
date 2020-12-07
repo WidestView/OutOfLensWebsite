@@ -1,4 +1,5 @@
-﻿@model string
+﻿@using OutOfLensWebsite.Models.Data
+@model OutOfLensWebsite.Models.Data.Package
 
 @{
     ViewBag.Title = "Cadastro";
@@ -24,33 +25,40 @@
 
         <div class="row d-flex justify-content-center">
 
-            <form class="text-justify col-9">
+                @using (Html.BeginForm("AddPackage", "Admin"))
+                {
+                    
 
                 <div class="form-row justify-content-center">
 
                     <div class="form-group col-md-2 col-sm-12">
-                        <label for="inputSexo"> Tipo Pacote </label>
-                        <select id="inputSexo" class="form-control">
-                            <option selected> Pacote 1 </option>
-                            <option> Pacote 2 </option>
-                            <option> Pacote 3 </option>
-                        </select>
+                    
+                        @Html.LabelFor(x => x.Type)
+                        @Html.DropDownListFor(x => x.Type, Package.GetTypes(new DatabaseConnection()))
+                        
                     </div>
+                    
                     <div class="form-group col-md-2 col-sm-12">
-                        <label for="inputNomeSoc"> Qualidade </label>
-                        <input type="text" class="form-control" id="inputNomeSoc">
+
+                        @Html.LabelFor(x => x.Quality, "Qualidade")
+                        @Html.TextBoxFor(x => x.Quality, new {@class = "form-control"})
+                        
                     </div>
+                    
                     <div class="form-group col-md-2 col-sm-3">
-                        <label for="inputQtd"> Quantidade </label>
-                        <input type="number" class="form-control" id="inputQtd" min="1" step="1">
+
+                        @Html.LabelFor(x => x. Quantity, "Quantidade")
+                        @Html.TextBoxFor(x => x. Quantity, new {@class = "form-control"})
                     </div>
+                    
                     <div class="form-group col-md-2">
-                        <label for="inputAlt"> Altura das fotos </label>
-                        <input type="number" class="form-control" id="inputAlt" min="1" step=".50">
+                        @Html.LabelFor(x => x.PhotoHeight, "Altura das fotos")
+                        @Html.TextBoxFor(x => x.PhotoHeight, new {@class = "form-control", type  = "number"})
                     </div>
+                    
                     <div class="form-group col-md-2">
-                        <label for="inputLarg"> Largura das fotos </label>
-                        <input type="number" class="form-control" id="inputLarg" min="1" step=".50">
+                        @Html.LabelFor(x => x.PhotoWidth, "Largura das fotos")
+                        @Html.TextBoxFor(x => x.PhotoWidth, new {@class = "form-control", type = "number"})
                     </div>
 
                 </div>
@@ -58,21 +66,22 @@
                 <div class="form-row justify-content-center">
 
                     <div class="form-group col-md-10">
-                        <label for="inputDesc"> Descrição </label>
-                        <textarea class="form-control" id="inputDesc" rows="3"></textarea>
+                        @Html.LabelFor(x => x.Description, "Descrição")
+                        @Html.TextAreaFor(x => x.Description, new {@class = "form-control"})
                     </div>
 
                 </div>
 
-            </form>
+                <div class="col d-flex justify-content-center">
+                    <button class="btn btn-dark" type="submit"> Cadastrar </button>
+                </div>
+                }
 
         </div>
 
         <div class="row mt-5">
 
-            <div class="col d-flex justify-content-center">
-                <button class="btn btn-dark"> Cadastrar </button>
-            </div>
+
 
         </div>
 

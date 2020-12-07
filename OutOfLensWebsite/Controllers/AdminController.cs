@@ -72,6 +72,38 @@ namespace OutOfLensWebsite.Controllers
             }
             
         }
+
+        [HttpPost]
+        public IActionResult AddPackageType(PackageType packageType)
+        {
+            if (ModelState.IsValid)
+            {
+                using DatabaseConnection connection = new DatabaseConnection();
+                
+                packageType.Insert(connection);
+
+                return View("Index");
+            }
+
+            return View("Insertion/Package");
+        }
+
+        [HttpPost]
+        public IActionResult AddPackage(Package package)
+        {
+            if (ModelState.IsValid)
+            {
+                using DatabaseConnection connection = new DatabaseConnection();
+                
+                package.Insert(connection);
+
+                return View("Index");
+            }
+            else
+            {
+                return View("Insertion/Package");
+            }
+        }
         
         public IActionResult Add(string id)
         {

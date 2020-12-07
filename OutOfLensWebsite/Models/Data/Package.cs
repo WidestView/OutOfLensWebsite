@@ -7,6 +7,7 @@ namespace OutOfLensWebsite.Models.Data
     public class Package
     {
         public int Type { get; set; }
+        
         public string Quality { get; set; }
         public int Quantity { get; set; }
         public int PhotoHeight { get; set; }
@@ -14,6 +15,8 @@ namespace OutOfLensWebsite.Models.Data
         public string Description { get; set; }
         public string Price { get; set; }
         public string Observation { get; set; }
+
+        
 
         public static IEnumerable<SelectListItem> GetTypes(DatabaseConnection database)
         {
