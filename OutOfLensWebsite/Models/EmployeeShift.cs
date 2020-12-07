@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
 using OutOfLensWebsite.Models;
+using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLens_ASP.Models
 {
@@ -13,7 +14,7 @@ namespace OutOfLens_ASP.Models
         {
             EmployeeShift shift = new EmployeeShift
             {
-                Employee = OutOfLensWebsite.Models.Employee.FromRfid(request.RfidData(), database)
+                Employee = OutOfLensWebsite.Models.Data.Employee.FromRfid(request.RfidData(), database)
             };
 
             return shift;

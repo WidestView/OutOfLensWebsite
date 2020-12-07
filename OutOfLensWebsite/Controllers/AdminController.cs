@@ -1,6 +1,7 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OutOfLensWebsite.Models;
+using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsite.Controllers
 {
@@ -74,7 +75,7 @@ namespace OutOfLensWebsite.Controllers
         
         public IActionResult Add(string id)
         {
-            return ResolveView("Insertion/", new[] {"Customer", "Employee"}, id);
+            return ResolveView("Insertion/", new[] {"Customer", "Employee", "Package", "Package_Type"}, id);
 
         }
 

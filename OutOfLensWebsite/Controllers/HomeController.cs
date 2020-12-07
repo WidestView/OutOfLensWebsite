@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OutOfLensWebsite.Models;
+using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsite.Controllers
 {
@@ -23,11 +24,11 @@ namespace OutOfLensWebsite.Controllers
                employee = Employee.From((int) id, connection);
             }
 
-            return View("Home", new HomeModel { Employee = employee, LoginData = new Login()});
+            return View("Home", new HomeViewModel { Employee = employee, LoginData = new Login()});
         }
 
         [HttpPost]
-        public ActionResult LoginUser(HomeModel model)
+        public ActionResult LoginUser(HomeViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -37,7 +38,7 @@ namespace OutOfLensWebsite.Controllers
             
             using var connection = new DatabaseConnection();
 
-            var result = Employee.Login( model.LoginData.Email, model.LoginData.Password,
+            var result = Employee.Login( viewModel.LoginData.Email, viewModel.LoginData.Password,
                 connection);
 
             if (result != null)
@@ -48,7 +49,7 @@ namespace OutOfLensWebsite.Controllers
             else
             {
                 ViewBag.Error = "User not found";
-                return View("Home", new HomeModel { LoginData = new Login(), Employee = null});
+                return View("Home", new HomeViewModel { LoginData = new Login(), Employee = null});
             }
         }
 

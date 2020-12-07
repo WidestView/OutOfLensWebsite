@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OutOfLensWebsite.Models
+namespace OutOfLensWebsite.Models.Data
 {
     public class Employee
     {
