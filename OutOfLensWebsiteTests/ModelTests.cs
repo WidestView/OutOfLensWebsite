@@ -2,14 +2,15 @@ using System;
 using System.Reflection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OutOfLensWebsite.Models;
+using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsiteTests
 {
     [TestClass]
-    public class EmployeeTest
+    public class ModelTests
     {
         [TestMethod]
-        public void TestInsertion()
+        public void TestEmployeeInsertion()
         {
             var employee = new Employee
             {
@@ -42,8 +43,12 @@ namespace OutOfLensWebsiteTests
                 Assert.AreEqual(info.GetValue(employee), info.GetValue(reference.Reference));
             }
         }
+
+        public void TestPackageInsertion()
+        {
+            
+        }
     
         
     }
 }
-
