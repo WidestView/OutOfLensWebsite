@@ -53,22 +53,26 @@ namespace OutOfLensWebsite.Controllers
                 return View("Index");
             }
         }
-        public IActionResult Add(string form)
+        
+        public IActionResult Add(string id)
         {
-            return ResolveView("insertion/", new[] {"customer", "employee"}, form);
+            return ResolveView("Insertion/", new[] {"Customer", "Employee"}, id);
 
         }
 
-        public IActionResult Query(string table)
+        [HttpGet]
+        public IActionResult Query(string id)
         {
-            return ResolveView("query/", new[] {"employee", "customer"}, table);
+            return ResolveView("query/", new[] {"employee", "customer"}, id);
         }
 
+        [HttpGet]
         public IActionResult Operation()
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult Report()
         {
             return View();
