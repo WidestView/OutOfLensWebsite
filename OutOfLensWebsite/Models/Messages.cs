@@ -1,6 +1,6 @@
 namespace OutOfLensWebsite.Models
 {
-    public class Messages
+    public static class Messages
     {
         public static string Success(string reason = null)
         {
