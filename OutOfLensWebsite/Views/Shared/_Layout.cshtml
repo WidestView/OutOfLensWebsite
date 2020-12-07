@@ -39,7 +39,7 @@
 				@{
 				if (ViewBag.isLogged)
 				{
-					using (@Html.BeginForm("LogOut", "Home"))
+					using (Html.BeginForm("LogOut", "Home"))
 					{
 						<div class="d-flex justify-content-center pt-auto ml-lg-auto mb-3 mb-lg-0 mt-3 mt-lg-0">
 							<p class="mr-4 mt-auto mb-auto text-white"> @Model.Employee?.Name </p>

@@ -39,7 +39,7 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return NotFound();
             }
@@ -63,7 +63,7 @@ namespace OutOfLensWebsite.Controllers
         [HttpGet]
         public IActionResult Query(string id)
         {
-            return ResolveView("query/", new[] {"employee", "customer"}, id);
+            return ResolveView("Query/", new[] {"Employee", "Customer"}, id);
         }
 
         [HttpGet]
