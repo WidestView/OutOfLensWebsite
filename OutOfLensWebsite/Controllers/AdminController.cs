@@ -1,5 +1,6 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using OutOfLens_ASP.Models;
 using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
@@ -139,7 +140,13 @@ namespace OutOfLensWebsite.Controllers
 
         public IActionResult Operation()
         {
-            return View();
+            var connection = new DatabaseConnection();
+            
+            TableViewModel model = new TableViewModel();
+            model.Labels = new[] {"ID", "Nome", "Horário Entrada", "Horário Saída"};
+            model.Data = EmployeeShift.GetTable(connection);
+                
+            return View(model);
         }
 
         public IActionResult Report()

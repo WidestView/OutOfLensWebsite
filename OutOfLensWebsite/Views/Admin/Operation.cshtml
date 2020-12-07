@@ -1,4 +1,4 @@
-@model string
+@model TableViewModel
 
 @{
     ViewBag.Title = "title";
@@ -60,61 +60,9 @@
     <div class="row d-flex justify-content-center mt-5 mb-5">
 
         <div class="col-7">
-
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col"> ID </th>
-                        <th scope="col"> Nome </th>
-                        <th scope="col"> Horário Entrada </th>
-                        <th scope="col"> Horário Saída </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <th scope="row"> 1 </th>
-                        <td> Mark </td>
-                        <td> Otto </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                    <tr>
-                        <th scope="row"> 2 </th>
-                        <td> Jacob </td>
-                        <td> Thornton </td>
-                        <td> Beserra </td>
-                    </tr>
-                </tbody>
-            </table>
+        
+                
+                @await Html.PartialAsync("Render/Table", Model)
 
         </div>
 

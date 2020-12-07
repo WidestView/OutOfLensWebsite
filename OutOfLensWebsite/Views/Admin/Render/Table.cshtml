@@ -1,0 +1,32 @@
+@model TableViewModel
+
+<table class="table table-striped">
+
+    <thead>
+
+    <tr>
+        @foreach (var label in Model.Labels)
+        {
+            <th scope="col"> @label </th>
+        }
+    </tr>
+
+
+    </thead>
+
+    <tbody>
+    
+        @foreach (var row in Model.Data)
+        {
+            <th scope="row"> @row.First().Value </th>
+            
+            foreach (var pair in row.Skip(1))
+            {
+                @pair.Value
+            }
+        }
+
+    </tbody>
+
+
+</table>

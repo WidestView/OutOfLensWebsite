@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Asn1;
 using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
@@ -9,6 +10,9 @@ namespace OutOfLens_ASP.Models
     public class EmployeeShift
     {
         public ImmutableTableReference<Employee> Employee;
+
+        public DateTime StartTime;
+        public DateTime EndTime;
 
         public static EmployeeShift From(ArduinoLogRequest request, DatabaseConnection database)
         {
@@ -52,5 +56,17 @@ namespace OutOfLens_ASP.Models
                 throw;
             }
         }
+
+        public static IEnumerable<Dictionary<string, object>> GetTable(DatabaseConnection connection)
+        {
+            return connection.Query(@"
+                select TURNO.CÓDIGO  from TURNO
+                    inner join FUNCIONÁRIO on TURNO.CÓDIGO_FUNCIONÁRIO = FUNCIONÁRIO.CÓDIGO
+                    inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO"
+                );
+            
+        }
+    
     }
+    
 }
