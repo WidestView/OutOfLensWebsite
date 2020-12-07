@@ -60,6 +60,10 @@
                         @Html.LabelFor(x => x.PhotoWidth, "Largura das fotos")
                         @Html.TextBoxFor(x => x.PhotoWidth, new {@class = "form-control", type = "number"})
                     </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputVal"> Valor </label>
+                        <input type="number" class="form-control" id="inputVal" min="1" step=".50">
+                    </div>
 
                 </div>
 
@@ -69,6 +73,12 @@
                         @Html.LabelFor(x => x.Description, "Descrição")
                         @Html.TextAreaFor(x => x.Description, new {@class = "form-control"})
                     </div>
+                    
+                      <div class="form-group col-md-10">
+                            <label for="inputObs"> Observação </label>
+                            <textarea class="form-control" id="inputObs" rows="3"></textarea>
+                        </div>
+
 
                 </div>
 
