@@ -40,7 +40,7 @@
                             var connection = new DatabaseConnection();
                             
                             @Html.LabelFor(x => x.Type, "Tipo de Pacote")
-                            @Html.DropDownListFor(x => x.Type, Package.GetTypes(connection),
+                            @Html.DropDownListFor(x => x.Type, PackageType.ListItems(connection),
                                 new { @class = "form-control"})
                             
                             connection.Dispose();

@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OutOfLensWebsite.Models.Data
 {
@@ -24,6 +26,21 @@ namespace OutOfLensWebsite.Models.Data
                     ["name"] = Name,
                     ["Description"] = Description
                 });
+        }
+        
+        public static IEnumerable<SelectListItem> ListItems(DatabaseConnection database)
+        {
+            const string typeId = "type_id";
+            const string typeName = "type_name";
+            
+            string command = $"select CÓDIGO as '{typeId}', TIPO_PACOTE as '{typeName}' from TIPO_PACOTE where DISPONÍVEL";
+            
+
+            return database
+                .Query(command)
+                .Select(row => 
+                    new SelectListItem((string) row[typeName], row[typeId].ToString()));
+
         }
     }
 }

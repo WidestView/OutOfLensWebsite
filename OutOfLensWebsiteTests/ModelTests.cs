@@ -77,5 +77,56 @@ namespace OutOfLensWebsiteTests
             
             package.Insert(connection);
         }
+
+        [TestMethod]
+        public void TestOrderInsertion()
+        {
+            var order = new Order
+            {
+                Customer = new TableReference<Customer>
+                {
+                    Identifier = 1
+                },
+                
+                Date = new DateTime(1970, 1, 1),
+                
+                Done = false,
+                
+                Package = new TableReference<Package>
+                {
+                    Identifier = 1
+                },
+                
+            };
+            
+            var connection = new DatabaseConnection();
+            
+            order.Insert(connection);
+        }
+        
+        [TestMethod]
+        public void TestSessionInsertion()
+        {
+            var session = new Session
+            {
+                Address = "rua beep boop",
+                Description =  "aaaaa",
+                Order = new TableReference<Order>
+                {
+                    Identifier = 2
+                },
+                StartTime = new DateTime(1970, 1, 1),
+                EndTime =  new DateTime(1970, 1, 1),
+            };
+            
+            var connection = new DatabaseConnection();
+            
+            session.Insert(connection);
+        }
+
+        public void TestReportInsertion()
+        {
+            
+        }
     }
 }

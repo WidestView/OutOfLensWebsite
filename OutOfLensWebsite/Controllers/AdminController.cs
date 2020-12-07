@@ -107,6 +107,23 @@ namespace OutOfLensWebsite.Controllers
                 return View("Insertion/Package");
             }
         }
+
+        [HttpPost]
+        public IActionResult AddReport(Report report)
+        {
+            if (ModelState.IsValid)
+            {
+                using DatabaseConnection connection = new DatabaseConnection();
+                
+                report.Insert(connection);
+
+                return View("Index");
+            }
+            else
+            {
+                return View("Report");
+            }
+        }
         
         public IActionResult Add(string id)
         {
@@ -120,13 +137,11 @@ namespace OutOfLensWebsite.Controllers
             return ResolveView("Query/", new[] {"Employee", "Customer"}, id);
         }
 
-        [HttpGet]
         public IActionResult Operation()
         {
             return View();
         }
 
-        [HttpGet]
         public IActionResult Report()
         {
             return View();

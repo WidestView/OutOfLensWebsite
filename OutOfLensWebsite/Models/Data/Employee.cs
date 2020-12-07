@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OutOfLensWebsite.Models.Data
 {
@@ -230,6 +232,17 @@ namespace OutOfLensWebsite.Models.Data
             int id = (int) result;
             
             return new ImmutableTableReference<Employee>(From, id, database);
+        }
+
+        public static IEnumerable<SelectListItem> ListItems(DatabaseConnection connection)
+        {
+            return connection.Query(@"
+                select NOME as 'name', FUNCIONÁRIO.CÓDIGO as 'id'
+                from FUNCIONÁRIO
+                    inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO").Select(
+                
+                row =>  new SelectListItem((string) row["name"], row["id"].ToString())
+            );
         }
     }
 }
