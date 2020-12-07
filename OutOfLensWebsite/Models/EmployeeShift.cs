@@ -8,7 +8,7 @@ namespace OutOfLens_ASP.Models
 {
     public class EmployeeShift
     {
-        public TableReference<Employee> Employee;
+        public ImmutableTableReference<Employee> Employee;
 
         public static EmployeeShift From(ArduinoLogRequest request, DatabaseConnection database)
         {

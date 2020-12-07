@@ -10,7 +10,7 @@ namespace OutOfLensWebsiteTests
         [TestMethod]
         public void TestReference()
         {
-            TableReference<string> subject = new TableReference<string>(1, "beep");
+            ITableReference<string> subject = new ImmutableTableReference<string>(1, "beep");
 
             Assert.AreEqual(subject.Reference, "beep");
             Assert.AreEqual(subject.Identifier, 1);
@@ -19,7 +19,7 @@ namespace OutOfLensWebsiteTests
         [TestMethod]
         public void TestExceptions()
         {
-            Assert.ThrowsException<ArgumentNullException>(() => new TableReference<string>(2, null));
+            Assert.ThrowsException<ArgumentNullException>(() => new ImmutableTableReference<string>(2, null));
 
 
             string Builder(int x, DatabaseConnection connection)
@@ -30,25 +30,25 @@ namespace OutOfLensWebsiteTests
             var database = new DatabaseConnection();
 
             Assert.ThrowsException<ArgumentNullException>(
-                () => new TableReference<string>(null, 5, null)
+                () => new ImmutableTableReference<string>(null, 5, null)
             );
 
             Assert.ThrowsException<ArgumentNullException>(
                 // ReSharper disable once AccessToDisposedClosure
-                () => new TableReference<string>(Builder, 5, null)
+                () => new ImmutableTableReference<string>(Builder, 5, null)
             );
             
             Assert.ThrowsException<ArgumentNullException>(
                 
                 // ReSharper disable once AccessToDisposedClosure
-                () => new TableReference<string>(null, 5, database)
+                () => new ImmutableTableReference<string>(null, 5, database)
             );
 
             Assert.ThrowsException<ArgumentNullException>(
-                () => new TableReference<string>(5, null)
+                () => new ImmutableTableReference<string>(5, null)
             );
             
-            var reference = new TableReference<string>((id, connection) => null, 4, database);
+            var reference = new ImmutableTableReference<string>((id, connection) => null, 4, database);
 
             Assert.AreEqual(reference.Reference, null);
             
@@ -69,7 +69,7 @@ namespace OutOfLensWebsiteTests
             
             DatabaseConnection database = new DatabaseConnection();
             
-            var reference = new TableReference<string>(Builder, 4, database);
+            var reference = new ImmutableTableReference<string>(Builder, 4, database);
 
             // Creating a TableReference shall *NOT* execute the builder
             Assert.AreEqual(callCount, 0);

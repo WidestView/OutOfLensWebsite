@@ -34,7 +34,7 @@ namespace OutOfLensWebsiteTests
 
             var reference = employee.Register(database);
 
-            reference = new TableReference<Employee>(Employee.From, reference.Identifier, database);
+            reference = new ImmutableTableReference<Employee>(Employee.From, reference.Identifier, database);
 
             Assert.AreEqual(reference.Identifier, employee.Id);
 

@@ -51,7 +51,7 @@ namespace OutOfLensWebsite.Models.Data
         [EmailAddress(ErrorMessage = "Insira um email válido")]
         public string Email { get; set; }
 
-        public TableReference<Customer> Insert(DatabaseConnection database)
+        public ImmutableTableReference<Customer> Insert(DatabaseConnection database)
         {
             string command = @"
             insert into PESSOA (NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL, EMAIL)
@@ -83,7 +83,7 @@ namespace OutOfLensWebsite.Models.Data
 
             Id = (int) database.GetLastInsertionId();
             
-            return new TableReference<Customer>(Id, this);
+            return new ImmutableTableReference<Customer>(Id, this);
         }
     }
 }

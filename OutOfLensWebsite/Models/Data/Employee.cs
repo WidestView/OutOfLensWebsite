@@ -110,7 +110,7 @@ namespace OutOfLensWebsite.Models.Data
             return new Employee(result[0]);
         }
 
-        public static TableReference<Employee> FromRfid(string rfid, DatabaseConnection database)
+        public static ImmutableTableReference<Employee> FromRfid(string rfid, DatabaseConnection database)
         {
             string query =
                 "select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO where RFID = @rfid";
@@ -122,7 +122,7 @@ namespace OutOfLensWebsite.Models.Data
 
             if (id != null)
             {
-                return new TableReference<Employee>(From, (int) id, database);
+                return new ImmutableTableReference<Employee>(From, (int) id, database);
             }
 
             return null;
@@ -135,7 +135,7 @@ namespace OutOfLensWebsite.Models.Data
         /// <returns>A table reference to the newly inserted Employee.</returns>
         /// <remarks>The Id property is updated to match the inserted one, which equals the Identifier
         /// of the resulting TableReference</remarks>
-        public TableReference<Employee> Register(DatabaseConnection database)
+        public ImmutableTableReference<Employee> Register(DatabaseConnection database)
         {
             string command = @"insert into PESSOA 
             (NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL, EMAIL)
@@ -174,7 +174,7 @@ namespace OutOfLensWebsite.Models.Data
 
             Id = (int) database.GetLastInsertionId();
             
-            return new TableReference<Employee>(Id, this);
+            return new ImmutableTableReference<Employee>(Id, this);
         }
 
         public static IEnumerable<Employee> ListFrom(DatabaseConnection database)
@@ -208,7 +208,7 @@ namespace OutOfLensWebsite.Models.Data
             return employees;
         }
 
-        public static TableReference<Employee> Login(string email, string password, DatabaseConnection database)
+        public static ImmutableTableReference<Employee> Login(string email, string password, DatabaseConnection database)
         {
             string command = @"
             select FUNCIONÁRIO.CÓDIGO from FUNCIONÁRIO
@@ -229,7 +229,7 @@ namespace OutOfLensWebsite.Models.Data
 
             int id = (int) result;
             
-            return new TableReference<Employee>(From, id, database);
+            return new ImmutableTableReference<Employee>(From, id, database);
         }
     }
 }
