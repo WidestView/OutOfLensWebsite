@@ -18,8 +18,6 @@ namespace OutOfLensWebsite.Models
             set => _reference = value;
         }
 
-
-
         public TableReference(int id, T reference)
         {
             Identifier = id;
@@ -34,5 +32,8 @@ namespace OutOfLensWebsite.Models
             Builder = builder ?? throw new ArgumentNullException(nameof(builder));
             Connection = database ?? throw new ArgumentNullException(nameof(database));
         }
+
+        public TableReference()
+        { }
     }
 }
