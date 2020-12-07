@@ -25,7 +25,10 @@
 
         <div class="row d-flex">
 
-            @using (Html.BeginForm("AddPackageType", "Admin"))
+            @using (Html.BeginForm("AddPackageType", "Admin", FormMethod.Post, new
+            {
+                @class = "text-justify col-12"
+            }) )
             {
                 <div class="form-row justify-content-center">
 

@@ -25,7 +25,10 @@
 
         <div class="row d-flex justify-content-center">
 
-                @using (Html.BeginForm("AddPackage", "Admin"))
+                @using (Html.BeginForm("AddPackage", "Admin", FormMethod.Post, new
+                {
+                    @class="text-justify col-9"
+                }))
                 {
                     
 
@@ -33,8 +36,15 @@
 
                     <div class="form-group col-md-2 col-sm-12">
                     
-                        @Html.LabelFor(x => x.Type)
-                        @Html.DropDownListFor(x => x.Type, Package.GetTypes(new DatabaseConnection()))
+                        @{
+                            var connection = new DatabaseConnection();
+                            
+                            @Html.LabelFor(x => x.Type, "Tipo de Pacote")
+                            @Html.DropDownListFor(x => x.Type, Package.GetTypes(connection),
+                                new { @class = "form-control"})
+                            
+                            connection.Dispose();
+                        }
                         
                     </div>
                     
@@ -48,7 +58,7 @@
                     <div class="form-group col-md-2 col-sm-3">
 
                         @Html.LabelFor(x => x. Quantity, "Quantidade")
-                        @Html.TextBoxFor(x => x. Quantity, new {@class = "form-control"})
+                        @Html.TextBoxFor(x => x. Quantity, new {@class = "form-control", type = "number"})
                     </div>
                     
                     <div class="form-group col-md-2">
@@ -61,8 +71,11 @@
                         @Html.TextBoxFor(x => x.PhotoWidth, new {@class = "form-control", type = "number"})
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="inputVal"> Valor </label>
-                        <input type="number" class="form-control" id="inputVal" min="1" step=".50">
+                        @Html.LabelFor(x => x.Price, "Valor")
+                        @Html.TextBoxFor(x => x.Price, new
+                        {
+                            @class = "form-control", type = "number", id="inputVal", min="1", step=".50"
+                        })
                     </div>
 
                 </div>
@@ -74,10 +87,10 @@
                         @Html.TextAreaFor(x => x.Description, new {@class = "form-control"})
                     </div>
                     
-                      <div class="form-group col-md-10">
-                            <label for="inputObs"> Observação </label>
-                            <textarea class="form-control" id="inputObs" rows="3"></textarea>
-                        </div>
+                  <div class="form-group col-md-10">
+                        @Html.LabelFor(x => x.Observation, "Observação")
+                        @Html.TextAreaFor(x => x.Observation, new {@class = "form-control"})
+                    </div>
 
 
                 </div>

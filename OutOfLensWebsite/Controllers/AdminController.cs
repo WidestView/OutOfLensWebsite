@@ -84,8 +84,11 @@ namespace OutOfLensWebsite.Controllers
 
                 return View("Index");
             }
+            else
+            {
+                return View("Insertion/Package_Type");
+            }
 
-            return View("Insertion/Package");
         }
 
         [HttpPost]
