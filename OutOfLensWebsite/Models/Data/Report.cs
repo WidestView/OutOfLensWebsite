@@ -28,5 +28,18 @@ namespace OutOfLensWebsite.Models.Data
                 }
             );
         }
+
+        public static TableViewModel GetTale(DatabaseConnection connection)
+        {
+            return new TableViewModel
+            {
+                Data = connection.Query(@"
+                    select RELATÓRIO.CÓDIGO, DIA, DESCRIÇÃO, CÓDIGO_PEDIDO, CÓDIGO_SESSÃO, P.NOME from RELATÓRIO
+                    inner join FUNCIONÁRIO F on RELATÓRIO.CÓDIGO_FUNCIONÁRIO = F.CÓDIGO
+                    inner join PESSOA P on F.CÓDIGO_USUÁRIO = P.CÓDIGO
+                    "),
+                Labels = new [] { "Código", "Data", "Descrição", "Código do Pedido", "Código da Sessão", "Nome do funcionário"}
+            };
+        }
     }
 }

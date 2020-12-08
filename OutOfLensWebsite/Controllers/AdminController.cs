@@ -233,7 +233,11 @@ namespace OutOfLensWebsite.Controllers
                     ViewBag.Header = "Informações das sessões";
                     model = Session.GetTable(connection);
                     break;
-                
+                case "Report":
+                    ViewBag.CurrentOption = "Relatório";
+                    ViewBag.Header = "Relatórios";
+                    model = Models.Data.Report.GetTale(connection);
+                    break;
                 case "Role":
                     ViewBag.CurrentOption = "Cargo";
                     ViewBag.Header = "Cargos disponíveis";

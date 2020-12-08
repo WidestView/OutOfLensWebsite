@@ -222,7 +222,8 @@ namespace OutOfLensWebsite.Models.Data
             return connection.Query(@"
                 select NOME as 'name', FUNCIONÁRIO.CÓDIGO as 'id'
                 from FUNCIONÁRIO
-                    inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO").Select(
+                    inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO
+                    where ATIVO").Select(
                 row => new SelectListItem((string) row["name"], row["id"].ToString())
             );
         }
@@ -244,6 +245,7 @@ namespace OutOfLensWebsite.Models.Data
                    NOME, NOME_SOCIAL, EMAIL, RG, CPF, GENERO, NASCIMENTO, TELEFONE, CEL, NÍVEL_ACESSO, CÓDIGO_CARGO, RFID, 
                            ATIVO from FUNCIONÁRIO
                         inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
+                        where ATIVO
                     "),
                 
                 Labels = new[]

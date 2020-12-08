@@ -32,48 +32,51 @@
                 {
                     
 
-                <div class="form-row justify-content-center">
+                    <div class="form-row justify-content-center">
 
-                    <div class="form-group col-md-2 col-sm-12">
+                        <div class="form-group col-md-4 col-sm-12">
                     
-                        @{
-                            var connection = new DatabaseConnection();
+                            @{
+                                var connection = new DatabaseConnection();
                             
-                            @Html.LabelFor(x => x.Type, "Tipo de Pacote")
-                            @Html.DropDownListFor(x => x.Type, PackageType.ListItems(connection),
-                                new { @class = "form-control"})
+                                @Html.LabelFor(x => x.Type, "Tipo de Pacote")
+                                @Html.DropDownListFor(x => x.Type, PackageType.ListItems(connection),
+                                    new { @class = "form-control"})
                             
-                            connection.Dispose();
-                        }
+                                connection.Dispose();
+                            }
                         
-                    </div>
+                        </div>
                     
-                    <div class="form-group col-md-2 col-sm-12">
+                        <div class="form-group col-md-4 col-sm-12">
 
-                        @Html.LabelFor(x => x.Quality, "Qualidade")
-                        @Html.TextBoxFor(x => x.Quality, new {@class = "form-control"})
+                            @Html.LabelFor(x => x.Quality, "Qualidade")
+                            @Html.TextBoxFor(x => x.Quality, new {@class = "form-control"})
                         
-                    </div>
+                        </div>
                     
-                    <div class="form-group col-md-2 col-sm-3">
+                        <div class="form-group col-md-4 col-sm-3">
 
-                        @Html.LabelFor(x => x. Quantity, "Quantidade")
-                        @Html.TextBoxFor(x => x. Quantity, new {@class = "form-control", type = "number"})
+                            @Html.LabelFor(x => x. Quantity, "Quantidade")
+                            @Html.TextBoxFor(x => x. Quantity, new {@class = "form-control", type = "number"})
+                        </div>
                     </div>
                     
-                    <div class="form-group col-md-2">
+                    <div class="form-row justify-content-center">
+                    
+                    <div class="form-group col-md-4">
                         @Html.LabelFor(x => x.PhotoHeight, "Altura das fotos")
                         @Html.TextBoxFor(x => x.PhotoHeight, new {@class = "form-control", type  = "number"})
                     </div>
                     
-                    <div class="form-group col-md-3">
+                    <div class="form-group col-md-4">
                         @Html.LabelFor(x => x.PhotoWidth, "Largura das fotos")
                         @Html.TextBoxFor(x => x.PhotoWidth, new
                         {
                             @class = "form-control", type = "number",
                         })
                     </div>
-                    <div class="form-group col-md-1">
+                    <div class="form-group col-md-4">
                         @Html.LabelFor(x => x.Price, "Valor")
                         @Html.TextBoxFor(x => x.Price, new
                         {
