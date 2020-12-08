@@ -1,5 +1,4 @@
-﻿@using OutOfLens_ASP.Models
-@using OutOfLensWebsite.Models.Data
+﻿@using OutOfLensWebsite.Models.Data
 @model OutOfLensWebsite.Models.Data.Employee
 
 @{
@@ -69,7 +68,7 @@
 
                         <div class="form-group col-md-2 col-sm-12">
                             @Html.LabelFor(x => x.BirthDate, "Data de Nascimento")
-                            @Html.TextBoxFor(x => x.BirthDate, new {@class = "form-control"})
+                            @Html.TextBoxFor(x => x.BirthDate, new {@class = "form-control", type = "date"})
                         </div>
                         <div class="form-group col-md-2">
                             @Html.LabelFor(x => x.Phone, "Telefone")

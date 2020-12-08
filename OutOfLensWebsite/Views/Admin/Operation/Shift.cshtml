@@ -1,0 +1,39 @@
+@model TableViewModel
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_AdminLayout";
+}
+
+<script type="text/javascript" src="~/js/admin-script.js"></script>
+
+<div id="notification-div" class="alert alert-primary fixed-alert">
+    OwO
+</div>
+
+<div class="container-fluid">
+
+    @await Html.PartialAsync("_Start.cshtml")
+
+    <div class="row d-flex justify-content-center mb-4" style="margin-top:3rem;">
+
+        <div class="col-5">
+
+            <h5 class="text-center my-3"> Gerenciamento de Entrada / Saída de Funcionário </h5>
+
+        </div>
+
+    </div>
+
+    <div class="row d-flex justify-content-center mt-5 mb-5">
+
+        <div class="col-7">
+        
+                
+                @await Html.PartialAsync("Render/Table", Model)
+
+        </div>
+
+    </div>
+
+</div>

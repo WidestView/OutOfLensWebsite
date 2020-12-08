@@ -7,12 +7,11 @@ namespace OutOfLensWebsite.Models.Data
 {
     public class Session
     {
-        public int Id { get; }
-        public TableReference<Order> Order;
-        public string Address;
-        public DateTime StartTime;
-        public DateTime EndTime;
-        public string Description;
+        public TableReference<Order> Order { get; set; }
+        public string Address { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
 
         public void Insert(DatabaseConnection connection)
         {
@@ -35,6 +34,22 @@ namespace OutOfLensWebsite.Models.Data
             return connection.Query("select CÓDIGO as 'id' from SESSÃO").Select(
                 row => new SelectListItem(row["id"].ToString(), row["id"].ToString())
             );
+        }
+        
+        public static TableViewModel GetTable(DatabaseConnection connection)
+        {
+            return new TableViewModel
+            {
+                Data = connection.Query(@"
+                    select CÓDIGO, ENDEREÇO, HORARIO_INÍCIO, HORARIO_FINALIZAÇÃO, CÓDIGO_PEDIDO, DESCRIÇÃO
+                    from SESSÃO"
+                ),
+                Labels = new []
+                {
+                    "Código", "Endereço", "Horário de Inicio", "Horario de Fim", "Código do Pedido",
+                    "Descrição"
+                }
+            };
         }
     }
 }

@@ -1,4 +1,3 @@
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using OutOfLens_ASP.Models;
 using OutOfLensWebsite.Models;
@@ -6,6 +5,9 @@ using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsite.Controllers
 {
+    // This class does to much stuff
+    // TODO: Move into different controllers
+
     public class AdminController : Controller
     {
         // GET
@@ -15,35 +17,12 @@ namespace OutOfLensWebsite.Controllers
             return View();
         }
 
-        private IActionResult ResolveView(string prefix, string[] items, string subject)
-        {
-            if (string.IsNullOrEmpty(subject))
-            {
-                if (!items.Any())
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    return View(prefix + items.First());
-                }
-            }
-
-            if (!items.Contains(subject))
-            {
-                return NotFound();
-            }
-            else
-            {
-                return View(prefix + subject);
-            }
-        }
 
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            
+
             if (!ModelState.IsValid)
             {
                 return View("Insertion/Employee");
@@ -58,13 +37,13 @@ namespace OutOfLensWebsite.Controllers
                 return View("Index");
             }
         }
-        
+
 
         [HttpPost]
         public IActionResult AddCustomer(Customer customer)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            
+
             if (ModelState.IsValid)
             {
                 using var database = new DatabaseConnection();
@@ -83,7 +62,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddPackageType(PackageType packageType)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            
+
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
@@ -102,7 +81,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddPackage(Package package)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            
+
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
@@ -121,7 +100,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddReport(Report report)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            
+
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
@@ -136,38 +115,142 @@ namespace OutOfLensWebsite.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult AddOrder(Order order)
+        {
+            if (ModelState.IsValid)
+            {
+                var connection = new DatabaseConnection();
+                order.Insert(connection);
+                return View("Operation/Index");
+            }
+            else
+            {
+                return View("Operation/Order");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult AddSession(Session session)
+        {
+            if (ModelState.IsValid)
+            {
+                var connection = new DatabaseConnection();
+                session.Insert(connection);
+                return View("Operation/Index");
+            }
+            else
+            {
+                return View("Operation/Session");
+            }
+        }
+
         public IActionResult Add(string id)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
-            return ResolveView("Insertion/", new[] {"Customer", "Employee", "Package", "Package_Type"}, id);
+
+            id ??= "Index";
+
+            switch (id)
+            {
+                case "Index":
+                    return View("Insertion/Index");
+                case "Employee":
+                    ViewBag.CurrentOption = "Funcionário";
+                    return View("Insertion/Employee");
+                case "Customer":
+                    ViewBag.CurrentOption = "Cliente";
+                    return View("Insertion/Customer");
+                case "Package":
+                    ViewBag.CurrentOption = "Pacote";
+                    return View("Insertion/Package");
+                case "Package_Type":
+                    ViewBag.CurrentOption = "Tipo de Pacote";
+                    return View("Insertion/Package_Type");
+                default:
+                    return NotFound();
+            }
         }
 
         [HttpGet]
         public IActionResult Query(string id)
         {
             ViewBag.PageLocation = PageLocation.Query;
-            
+
+            id ??= "Index";
+
+            TableViewModel model;
+
             using var connection = new DatabaseConnection();
 
-            if (id == null || id.ToLower() == "Employee".ToLower())
+            switch (id)
             {
-                return View("Query/Employee", Employee.GetTable(connection));
+                case "Index":
+                    ViewBag.CurrentOption = null;
+                    return View("Query/Index");
+
+                case "Customer":
+                    ViewBag.CurrentOption = "Cliente";
+                    ViewBag.Header = "Informações dos clientes";
+                    model = Customer.GetTable(connection);
+                    break;
+                case "Employee":
+                    ViewBag.CurrentOption = "Funcionário";
+                    ViewBag.Header = "Informações dos funcionários";
+                    model = Employee.GetTable(connection);
+                    break;
+                case "Package":
+                    ViewBag.CurrentOption = "Pacote";
+                    ViewBag.Header = "Informações dos pacotes";
+                    model = Package.GetTable(connection);
+                    break;
+                case "Order":
+                    ViewBag.CurrentOption = "Pedido";
+                    ViewBag.Header = "Informações dos pedidos";
+                    model = Order.GetTable(connection);
+                    break;
+                case "Session":
+                    ViewBag.CurrentOption = "Sessão";
+                    ViewBag.Header = "Informações das sessões";
+                    model = Session.GetTable(connection);
+                    break;
+                default:
+                    return NotFound();
             }
 
-            return ResolveView("Query/", new[] {"Employee", "Customer"}, id);
+            return View("Query/Display", model);
         }
 
-        public IActionResult Operation()
+        public IActionResult Operation(string id)
         {
             ViewBag.PageLocation = PageLocation.Operation;
-            
-            var connection = new DatabaseConnection();
 
-            TableViewModel model = new TableViewModel();
-            model.Labels = new[] {"ID", "Nome", "Horário Entrada", "Horário Saída"};
-            model.Data = EmployeeShift.GetTable(connection);
+            id ??= "Index";
 
-            return View(model);
+            switch (id)
+            {
+                case "Index":
+
+                    return View("Operation/Index");
+
+                case "Order":
+                    ViewBag.CurrentOption = "Fechar Pedido";
+                    return View("Operation/Order");
+                case "Session":
+                    ViewBag.CurrentOption = "Definir Sessão";
+                    return View("Operation/Session");
+                case "Shift":
+                    ViewBag.CurrentOption = "GerenciarTurno";
+                    var connection = new DatabaseConnection();
+
+                    TableViewModel model = new TableViewModel();
+                    model.Labels = new[] {"ID", "Nome", "Horário Entrada", "Horário Saída"};
+                    model.Data = EmployeeShift.GetTable(connection);
+                    return View("Operation/Shift", model);
+
+                default:
+                    return NotFound();
+            }
         }
 
         public IActionResult Report()

@@ -30,11 +30,18 @@ namespace OutOfLensWebsite.Models.Data
 
         public static IEnumerable<SelectListItem> ListItems(DatabaseConnection connection)
         {
-            
-            
             return connection.Query(@" select CÓDIGO as 'id' from PEDIDO")
                 .Select(row => 
                     new SelectListItem(row["id"].ToString(), row["id"].ToString()));
+        }
+
+        public static TableViewModel GetTable(DatabaseConnection connection)
+        {
+            return new TableViewModel
+            {
+                Data = connection.Query(@"select CÓDIGO, DIA, CÓDIGO_CLIENTE, ENTREGUE, CÓDIGO_PACOTE from PEDIDO"),
+                Labels = new []{"Código", "Dia", "Código do Cliente", "Entregue", "Código do Pacote"}
+            };
         }
     }
 }

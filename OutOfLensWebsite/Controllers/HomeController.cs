@@ -11,8 +11,6 @@ namespace OutOfLensWebsite.Controllers
         
         public ActionResult Index()
         {
-
-
             Employee employee = null;
             
             int? id = HttpContext.Session.GetInt32(SessionLoggedId);

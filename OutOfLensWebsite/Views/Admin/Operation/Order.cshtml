@@ -1,0 +1,88 @@
+﻿
+@using OutOfLensWebsite.Models.Data
+@model OutOfLensWebsite.Models.Data.Order
+
+@{
+    ViewData["Title"] = "Order";
+    Layout = "_AdminLayout";
+}
+
+<div id="content" style="width:100%">
+
+    <div class="container-fluid">
+        
+        @await Html.PartialAsync("_Start.cshtml")
+
+        <div class="row d-flex justify-content-center mb-4" style="margin-top:3rem;">
+
+            <div class="col-3">
+
+                <h5 class="text-center my-3"> Registro de Pedido </h5>
+
+            </div>
+
+        </div>
+
+        <div class="row d-flex justify-content-center">
+
+            @using (Html.BeginForm("AddOrder", "Admin", FormMethod.Post,
+                new
+                {
+                    @class = "text-justify col-4"
+                }))
+            {
+
+                <div class="form-row justify-content-center">
+                    
+                    @{
+                        var connection = new DatabaseConnection();
+                    }
+
+                    <div class="form-group col-md-12">
+                        @Html.LabelFor(x => x.Customer.Identifier, "Cliente")
+                        @Html.DropDownListFor(x => x.Customer.Identifier,
+                            Customer.ListItems(connection), new
+                            {
+                                @class = "form-control"
+                            })
+                    </div>
+                    <div class="form-group col-md-12">
+                        
+                        @Html.LabelFor(x => x.Package.Identifier, "Pacote")
+                        @Html.DropDownListFor(x => x.Package.Identifier,
+                            Package.ListItems(connection), new
+                            {
+                                @class = "form-control"
+                            })
+                        
+                        
+                    </div>
+                    <div class="form-group col-md-12">
+                        
+                        @Html.LabelFor(x => x.Date, "Data de entrega")
+                        @Html.TextBoxFor(x => x.Date, new
+                        {
+                            @class = "form-control",
+                            type = "date"
+                        })
+                    </div>
+
+                    <button class="btn btn-dark" type="submit"> Cadastrar </button>
+                    
+                </div>
+
+                }
+
+        </div>
+
+        <div class="row mt-5">
+
+            <div class="col d-flex justify-content-center">
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+

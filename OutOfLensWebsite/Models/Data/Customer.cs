@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace OutOfLensWebsite.Models.Data
 {
@@ -85,5 +87,31 @@ namespace OutOfLensWebsite.Models.Data
             
             return new ImmutableTableReference<Customer>(Id, this);
         }
+
+        public static TableViewModel GetTable(DatabaseConnection connection)
+        {
+            return new TableViewModel
+            {
+                Data = connection.Query(@"
+                    select 
+                           CLIENTE.CÓDIGO, NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL, EMAIL, ATIVO
+                    from CLIENTE inner join PESSOA P on CLIENTE.CÓDIGO_USUÁRIO = P.CÓDIGO
+                "),
+                Labels = new []
+                {
+                    "Código", "Nome", "Nome Social", "Gênero", "RG", "CPF", "Data de nascimento",
+                    "Telefone", "Celular", "Email", "Ativo"
+                }
+            };
+        }
+
+        public static IEnumerable<SelectListItem> ListItems(DatabaseConnection connection)
+        {
+            return connection.Query(@"
+                select CLIENTE.CÓDIGO as 'id', NOME as 'name'
+                from CLIENTE inner join PESSOA P on CLIENTE.CÓDIGO_USUÁRIO = P.CÓDIGO
+            ").Select(row => new SelectListItem((string) row["name"], row["id"].ToString()));
+        }
     }
+    
 }

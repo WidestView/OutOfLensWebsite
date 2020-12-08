@@ -3,20 +3,23 @@
     <span> Menu </span>
 </button>
 
+
 <div class="row pl-5" style="margin-top:4rem;">
 
     <div class="col-1" style="color:#999">
-        <p> Cadastros </p>
+        <p> Consultas </p>
     </div>
 
 </div>
+
 <div class="row d-flex justify-content-center text-center">
 
+
     <div class="col-12">
-        <h2> Cadastros </h2>
+        <h2> Consultas </h2>
         <p class="px-3" style="margin-top:2rem;">
-            Realize Inserções no banco de dados através de formulários simples e objetivos, que buscam maior otimização dos processos
-            de gereciamento do sistema.
+            Analise e gerencie dados cadastrados anteriormente no sistema através de tabelas intuitivas
+            e construidas de maneira concisa.
         </p>
     </div>
 
@@ -28,13 +31,14 @@
 
     <div class="dropdown">
         <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border:rgba(0, 0, 0, 0.2) 1px solid; padding-right:10px">
-            <span style="padding-right:30px;"> @( ViewBag.CurrentOption ?? "Selecione aqui o que deve ser Cadastrado") </span>
+            <span style="padding-right:30px;"> @( ViewBag.CurrentOption ?? "Selecione aqui o que deve ser consultado" )  </span>
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="/Admin/Add/Customer"> Cliente </a>
-            <a class="dropdown-item" href="/Admin/Add/Employee"> Funcionário </a>
-            <a class="dropdown-item" href="/Admin/Add/Package"> Pacote </a>
-            <a class="dropdown-item" href="/Admin/Add/Package_Type"> Tipo de Pacote </a>
+            <a class="dropdown-item" href="/Admin/Query/Employee"> Funcionário </a>
+            <a class="dropdown-item" href="/Admin/Query/Customer"> Cliente </a>
+            <a class="dropdown-item" href="/Admin/Query/Package"> Pacote </a>
+            <a class="dropdown-item" href="/Admin/Query/Order"> Pedido </a>
+            <a class="dropdown-item" href="/Admin/Query/Session"> Sessão </a>
         </div>
     </div>
 
