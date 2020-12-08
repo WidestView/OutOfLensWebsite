@@ -21,6 +21,8 @@ namespace OutOfLensWebsite.Models.Data
         public string Gender { get; set; }
 
         [Required(ErrorMessage = "O RG é obrigatório")]
+        [MinLength(8, ErrorMessage = "RG inválido")]
+        [MaxLength(15, ErrorMessage = "RG inválido")]
         public string Rg { get; set; }
 
         [Required(ErrorMessage = "O CPF é obrigatório")]
@@ -58,7 +60,7 @@ namespace OutOfLensWebsite.Models.Data
 
         [Required(ErrorMessage = "O cargo é obrigatório")]
 
-        public TableReference<string> Role { get; set; }
+        public TableReference<Role> Role { get; set; }
 
         public Employee()
         {
@@ -81,7 +83,7 @@ namespace OutOfLensWebsite.Models.Data
             Rfid = (string) source["rfid"];
             AccessLevel = (int) source["access_level"];
 
-            Role = new TableReference<string>
+            Role = new TableReference<Role>
             {
                 Identifier = (int) source["role_id"]
             };
@@ -189,37 +191,6 @@ namespace OutOfLensWebsite.Models.Data
             return new ImmutableTableReference<Employee>(Id, this);
         }
 
-        public static IEnumerable<Employee> ListFrom(DatabaseConnection database)
-        {
-            string command = @"select
-            FUNCIONÁRIO.CÓDIGO as 'id',
-            NOME as 'name',
-            NOME_SOCIAL as 'social_name',
-            GENERO as 'gender',
-            RG as 'rg',
-            CPF as 'cpf',
-            NASCIMENTO as 'birth_date',
-            TELEFONE as 'phone',
-            CEL as 'cell_phone',
-            EMAIL as 'email',
-            SENHA as 'password',
-            ATIVO as 'is_active',
-            RFID as 'rfid',
-            NÍVEL_ACESSO as 'access_level',
-            CÓDIGO_CARGO as 'role_id'
-            from FUNCIONÁRIO inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO";
-
-            var result = database.Query(command);
-
-            List<Employee> employees = new List<Employee>();
-
-            foreach (var row in result)
-            {
-                employees.Add(new Employee(row));
-            }
-
-            return employees;
-        }
 
         public static ImmutableTableReference<Employee> Login(string email, string password,
             DatabaseConnection database)

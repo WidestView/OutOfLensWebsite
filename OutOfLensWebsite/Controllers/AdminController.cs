@@ -145,6 +145,21 @@ namespace OutOfLensWebsite.Controllers
             }
         }
 
+        [HttpPost]
+        public IActionResult AddRole(Role role)
+        {
+             if (ModelState.IsValid)
+             {
+                 var connection = new DatabaseConnection();
+                 role.Insert(connection);
+                 return View("Insertion/Index");
+             }
+             else
+             {
+                 return View("Insertion/Role");
+             }           
+        }
+
         public IActionResult Add(string id)
         {
             ViewBag.PageLocation = PageLocation.Insertion;
@@ -167,6 +182,9 @@ namespace OutOfLensWebsite.Controllers
                 case "Package_Type":
                     ViewBag.CurrentOption = "Tipo de Pacote";
                     return View("Insertion/Package_Type");
+                case "Role":
+                    ViewBag.CurrentOption = "Cargo";
+                    return View("Insertion/Role");
                 default:
                     return NotFound();
             }
@@ -197,6 +215,7 @@ namespace OutOfLensWebsite.Controllers
                 case "Employee":
                     ViewBag.CurrentOption = "Funcionário";
                     ViewBag.Header = "Informações dos funcionários";
+                    ViewBag.Contained = true;
                     model = Employee.GetTable(connection);
                     break;
                 case "Package":
@@ -213,6 +232,12 @@ namespace OutOfLensWebsite.Controllers
                     ViewBag.CurrentOption = "Sessão";
                     ViewBag.Header = "Informações das sessões";
                     model = Session.GetTable(connection);
+                    break;
+                
+                case "Role":
+                    ViewBag.CurrentOption = "Cargo";
+                    ViewBag.Header = "Cargos disponíveis";
+                    model = Role.GetTable(connection);
                     break;
                 default:
                     return NotFound();
@@ -261,8 +286,11 @@ namespace OutOfLensWebsite.Controllers
 
         public IActionResult Agenda()
         {
+            var connection = new DatabaseConnection();
+            
             ViewBag.PageLocation = PageLocation.Agenda;
-            return View();
+            
+            return View(Order.ListAll(connection));
         }
 
         public enum PageLocation

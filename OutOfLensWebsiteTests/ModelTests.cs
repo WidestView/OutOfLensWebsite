@@ -42,7 +42,7 @@ namespace OutOfLensWebsiteTests
                 AccessLevel = 10,
                 IsActive = true,
                 SocialName = "bob",
-                Role = new TableReference<string>
+                Role = new TableReference<Role>
                 {
                     Identifier = 7
                 },

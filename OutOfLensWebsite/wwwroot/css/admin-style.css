@@ -123,3 +123,7 @@ a[data-toggle="collapse"] {
     transition: opacity .5s;
     opacity: 0;
 }
+
+.limited {
+    max-width: calc(100vw - 300px);
+}

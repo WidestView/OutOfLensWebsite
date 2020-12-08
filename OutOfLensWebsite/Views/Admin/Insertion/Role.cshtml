@@ -1,0 +1,67 @@
+@model OutOfLensWebsite.Models.Data.Role
+
+@{
+    ViewBag.Title = "Cadastro";
+    Layout = "_AdminLayout";
+}
+
+<div id="content" style="width:100%;">
+
+
+    <div class="container-fluid">
+
+        @await Html.PartialAsync("Insertion/_Start")
+
+
+        <div class="row d-flex justify-content-center mb-4" style="margin-top:3rem;">
+
+            <div class="col-3">
+
+                <h5 class="text-center my-3"> Informações do cargo </h5>
+
+            </div>
+
+        </div>
+
+        <div class="row d-flex">
+
+            @using (Html.BeginForm("AddRole", "Admin", FormMethod.Post, new
+            {
+                @class = "text-justify col-12"
+            }) )
+            {
+                <div class="form-row justify-content-center">
+
+                    <div class="form-group col-md-4 col-sm-12">
+                        @Html.LabelFor(x => x.Name, "Nome") 
+                        @Html.TextBoxFor(x => x.Name, new { @class = "form-control"}) 
+                    </div>
+
+                </div>
+
+                <div class="form-row justify-content-center">
+
+                    <div class="form-group col-md-4">
+                        @Html.LabelFor(x => x.Description, "Descrição") 
+                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control"}) 
+                    </div>
+
+                </div>
+
+
+            <div class="col d-flex justify-content-center">
+                <button class="btn btn-dark" type="submit"> Cadastrar </button>
+            </div>
+            }
+
+        </div>
+
+        <div class="row mt-5">
+
+
+        </div>
+
+    </div>
+
+</div>
+

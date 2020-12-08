@@ -43,5 +43,34 @@ namespace OutOfLensWebsite.Models.Data
                 Labels = new []{"Código", "Dia", "Código do Cliente", "Entregue", "Código do Pacote"}
             };
         }
+
+        public static IEnumerable<CalendarOrder> ListAll(DatabaseConnection connection)
+        {
+            return connection.Query(@"
+                select
+                    PACOTE.CÓDIGO as 'id',
+                       PESSOA.NOME as 'customer_name',
+                       PACOTE.DESCRIÇÃO as 'package_name',
+                       DIA as 'date'
+                    from PEDIDO
+                    inner join PACOTE  on PEDIDO.CÓDIGO_PACOTE = PACOTE.CÓDIGO
+                    inner join CLIENTE on PEDIDO.CÓDIGO_CLIENTE = CLIENTE.CÓDIGO
+                    inner join PESSOA  on CLIENTE.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO
+            ").Select(row => new CalendarOrder
+            {
+                Id = (int) row["id"],
+                CustomerName = (string) row["customer_name"],
+                PackageName = (string) row["package_name"],
+                Date = (DateTime) row["date"]
+            });
+        }
+
+        public class CalendarOrder
+        {
+            public int Id { get; set; }
+            public string PackageName { get; set; }
+            public string CustomerName { get; set; }
+            public DateTime Date { get; set; }
+        }
     }
 }

@@ -1,5 +1,5 @@
 
-@model string
+@model IEnumerable<OutOfLensWebsite.Models.Data.Order.CalendarOrder>
 
 @{
     ViewBag.Title = "title";
@@ -35,10 +35,27 @@
 <script>
 
     document.addEventListener('DOMContentLoaded', function () {
-        var calendarEl = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth'
+        const calendarEl = document.getElementById('calendar');
+        const calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            events: [
+                
+                @foreach (var order in Model)
+                {
+
+                    <text>
+                        {
+                            id: '@order.Id',
+                            title: '@(order.CustomerName)',
+                            start: '@order.Date.ToString("yyyy-MM-dd")',
+                            classNames : ['tooltip-able'],
+                        }
+                    </text>
+                }
+            ]
         });
         calendar.render();
+        
+
     });
 </script>

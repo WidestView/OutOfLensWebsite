@@ -82,10 +82,10 @@ namespace OutOfLens_ASP.Models
         public static EmployeeShift GetLast(DatabaseConnection connection)
         {
             var result = connection.Query(@"
-            select CÓDIGO as 'id', CÓDIGO_FUNCIONÁRIO as 'employee_id', HORÁRIO_ENTRADA as 'enter_time', HORÁRIO_SAÍDA  as 'exit_time'
-            from TURNO order by CÓDIGO desc limit 1");
+            select CÓDIGO_FUNCIONÁRIO as 'employee_id', 
+                   HORÁRIO_SAÍDA as 'exit_time' from UltimoTurno");
 
-            if (result.Count < 0)
+            if (result.Count == 0)
             {
                 return null;
             }
@@ -101,8 +101,7 @@ namespace OutOfLens_ASP.Models
                 {
                     
                     Employee = new ImmutableTableReference<Employee>(OutOfLensWebsite.Models.Data.Employee.From, id, connection),
-                    StartTime = (DateTime) row["enter_time"],
-                    EndTime = (exit == DBNull.Value ? null : (DateTime?) exit)
+                    EndTime = exit == DBNull.Value ? null : (DateTime?) exit
                 };
             }
         }

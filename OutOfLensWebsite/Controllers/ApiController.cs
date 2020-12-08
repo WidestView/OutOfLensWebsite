@@ -38,7 +38,7 @@ namespace OutOfLensWebsite.Controllers
 
                             EmployeeShift.From(request, database).RegisterUsing(database);
                             
-                            Console.WriteLine("Insertion Done:", request.RfidData());
+                            Console.WriteLine($"Insertion Done: {request.RfidData()}");
 
                         }
                         catch (InvalidOperationException ex)
@@ -52,17 +52,21 @@ namespace OutOfLensWebsite.Controllers
                             Console.WriteLine("RFID not found");
                             Console.WriteLine("RFID" + request.Data);
 
+                            Response.StatusCode = 404;
+
                             return Messages.Failure("RFID not found");
                         }
                     }
                     else
                     {
+                        Response.StatusCode = 403;
                         return Messages.Failure("Invalid credentials");
                     }
                 }
                 catch (Exception ex) when (ex is OutOfMemoryException || ex is MySqlException)
                 {
                     Console.WriteLine(ex);
+                    Response.StatusCode = 500;
                     return Messages.Failure();
                 }
 
@@ -70,8 +74,10 @@ namespace OutOfLensWebsite.Controllers
 
                 return Messages.Success();
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
+                Response.StatusCode = 500;
                 return Messages.Failure("Internal server error");
             }
         }

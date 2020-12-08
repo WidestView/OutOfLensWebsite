@@ -3,12 +3,13 @@
 @{
     Layout = "_AdminLayout";
 }
+
 <div id="content" style="width:100%;">
 
 
     <div class="container-fluid">
         
-        @await Html.PartialAsync("Query/_Start");
+        @await Html.PartialAsync("Query/_Start")
 
         <div class="row pl-5 mb-4" style="margin-top:4rem;">
 
@@ -22,9 +23,10 @@
 
         <div class="row pl-5">
 
-            <div class="col-12 pr-5">
+            <div class="col-12" style="max-width: calc(100vw - 350px)">
+            
 
-                @await Html.PartialAsync("Render/Table")
+                    @await Html.PartialAsync("Render/Table")
 
 
             </div>
