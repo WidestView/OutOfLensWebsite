@@ -83,7 +83,7 @@ namespace OutOfLens_ASP.Models
         {
             var result = connection.Query(@"
             select CÓDIGO as 'id', CÓDIGO_FUNCIONÁRIO as 'employee_id', HORÁRIO_ENTRADA as 'enter_time', HORÁRIO_SAÍDA  as 'exit_time'
-            from TURNO order by CÓDIGO limit 1");
+            from TURNO order by CÓDIGO desc limit 1");
 
             if (result.Count < 0)
             {

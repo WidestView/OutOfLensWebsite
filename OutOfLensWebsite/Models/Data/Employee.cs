@@ -263,15 +263,24 @@ namespace OutOfLensWebsite.Models.Data
             );
         }
 
-        public static IEnumerable<Dictionary<string, object>> GetTable(DatabaseConnection connection)
+        public static TableViewModel GetTable(DatabaseConnection connection)
         {
-            return connection.Query(@"
-            select
-            FUNCIONÁRIO.CÓDIGO,
-           NÍVEL_ACESSO, RFID, CÓDIGO_CARGO, NOME, NOME_SOCIAL, GENERO, RG, CPF, NASCIMENTO, TELEFONE, CEL,
-                   EMAIL, ATIVO from FUNCIONÁRIO
-                inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
-            ");
+            return new TableViewModel()
+            {
+                Data = connection.Query(@"
+                    select
+                    FUNCIONÁRIO.CÓDIGO,
+                   NOME, NOME_SOCIAL, EMAIL, RG, CPF, GENERO, NASCIMENTO, TELEFONE, CEL, NÍVEL_ACESSO, CÓDIGO_CARGO, RFID, 
+                           ATIVO from FUNCIONÁRIO
+                        inner join PESSOA P on FUNCIONÁRIO.CÓDIGO_USUÁRIO = P.CÓDIGO
+                    "),
+                
+                Labels = new[]
+                {
+                    "Código", "Nome", "Nome Social", "Email", "RG", "CPF", "Gênero", "Data de Nascimento", "Telefone", "Celular",
+                    "Nível de Acesso", "Cargo", "RFID", "Ativo"
+                }
+            };
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json.Serialization;
+using Org.BouncyCastle.Cms;
 
 namespace OutOfLensWebsite.Models
 {
@@ -18,12 +19,18 @@ namespace OutOfLensWebsite.Models
 
         public string RfidData()
         {
-            if (Data.Length < 3 || !Data.StartsWith("r "))
+            if (Data.Length < 4 || !Data.StartsWith("r "))
             {
                 throw new InvalidOperationException("ArduinoLogRequest is not rfid");
             }
 
-            return Data.Substring(2);
+            var data = Data;
+
+            data = data.Substring(2);
+
+            data = data.Remove(data.Length - 1);
+
+            return data;
 
         }
     }

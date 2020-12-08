@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using OutOfLensWebsite.Controllers
+<!DOCTYPE html>
 
 <html lang="pt-br">
 
@@ -47,42 +48,69 @@
     
             <ul class="list-unstyled components">
 
-                <li class="active">                   
+                <li
+                        @if (ViewBag.PageLocation == AdminController.PageLocation.Home)
+                        { <text>class="active"</text> }
+                    >                   
+                    
                     <a href="/Admin"> 
                         <i class="fas fa-home"></i>
                         <span> Home </span> 
                     </a>
-                </li>
 
-                <li>
+            <li @if (ViewBag.PageLocation == AdminController.PageLocation.Insertion)
+                    {
+                        <text>class="active"</text>
+                    }
+                >
+                
                     <a href="/Admin/Add"> 
                         <i class="fas fa-user-plus"></i>
                         <span> Cadastros </span>
                     </a>
                 </li>
 
-                <li>
+                <li @if (ViewBag.PageLocation == AdminController.PageLocation.Query)
+                        {
+                            <text>class="active"</text>
+                        }
+                >
                     <a href="/Admin/Query">
                         <i class="fas fa-search"></i>
                         <span> Consultas </span>
                     </a>
                 </li>
 
-                <li>
+                
+                <li @if (ViewBag.PageLocation == AdminController.PageLocation.Report)
+                        {
+                            <text>class="active"</text>
+                        }
+                >
                     <a href="/Admin/Report">
                         <i class="fas fa-clipboard-list"></i>
                         <span> Relatórios </span>
                     </a>
                 </li>
 
-                <li>
+                    
+                <li @if (ViewBag.PageLocation == AdminController.PageLocation.Agenda)
+                        {
+                            <text>class="active"</text>
+                        }
+                >
                     <a href="/Admin/Agenda">
                         <i class="fas fa-calendar-alt"></i>
                         <span> Agenda </span>
                     </a>
                 </li>
 
-                <li>
+                    
+                <li @if (ViewBag.PageLocation == AdminController.PageLocation.Operation)
+                        {
+                            <text>class="active"</text>
+                        }
+                >
                     <a href="/Admin/Operation">
                         <i class="fas fa-book"></i>
                         <span> Operação </span>

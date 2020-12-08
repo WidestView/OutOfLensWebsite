@@ -1,3 +1,5 @@
+using System;
+
 namespace OutOfLensWebsite.Models
 {
     public static class Messages

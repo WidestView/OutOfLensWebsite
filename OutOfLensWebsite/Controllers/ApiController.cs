@@ -16,6 +16,8 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public async Task<string> LogData()
         {
+            Console.WriteLine("Request Received");
+            
             try
             {
                 using StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8);
@@ -35,6 +37,8 @@ namespace OutOfLensWebsite.Controllers
 
 
                             EmployeeShift.From(request, database).RegisterUsing(database);
+                            
+                            Console.WriteLine("Insertion Done:", request.RfidData());
 
                         }
                         catch (InvalidOperationException ex)
@@ -46,6 +50,7 @@ namespace OutOfLensWebsite.Controllers
                         catch (KeyNotFoundException)
                         {
                             Console.WriteLine("RFID not found");
+                            Console.WriteLine("RFID" + request.Data);
 
                             return Messages.Failure("RFID not found");
                         }

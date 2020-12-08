@@ -142,13 +142,11 @@ namespace OutOfLensWebsite.Models
 
         ~DatabaseConnection()
         {
-            Console.WriteLine("Manager Deconstructor Called");
             Dispose();
         }
 
         public void Dispose()
         {
-            Console.WriteLine("Connection Closed");
             _connection.Close();
         }
     }

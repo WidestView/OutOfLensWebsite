@@ -11,6 +11,7 @@ namespace OutOfLensWebsite.Controllers
         // GET
         public IActionResult Index()
         {
+            ViewBag.PageLocation = PageLocation.Home;
             return View();
         }
 
@@ -27,7 +28,7 @@ namespace OutOfLensWebsite.Controllers
                     return View(prefix + items.First());
                 }
             }
-     
+
             if (!items.Contains(subject))
             {
                 return NotFound();
@@ -41,6 +42,8 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
+            
             if (!ModelState.IsValid)
             {
                 return View("Insertion/Employee");
@@ -55,10 +58,13 @@ namespace OutOfLensWebsite.Controllers
                 return View("Index");
             }
         }
+        
 
         [HttpPost]
         public IActionResult AddCustomer(Customer customer)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
+            
             if (ModelState.IsValid)
             {
                 using var database = new DatabaseConnection();
@@ -71,16 +77,17 @@ namespace OutOfLensWebsite.Controllers
             {
                 return View("Insertion/Customer");
             }
-            
         }
 
         [HttpPost]
         public IActionResult AddPackageType(PackageType packageType)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
+            
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
-                
+
                 packageType.Insert(connection);
 
                 return View("Index");
@@ -89,16 +96,17 @@ namespace OutOfLensWebsite.Controllers
             {
                 return View("Insertion/Package_Type");
             }
-
         }
 
         [HttpPost]
         public IActionResult AddPackage(Package package)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
+            
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
-                
+
                 package.Insert(connection);
 
                 return View("Index");
@@ -112,10 +120,12 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddReport(Report report)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
+            
             if (ModelState.IsValid)
             {
                 using DatabaseConnection connection = new DatabaseConnection();
-                
+
                 report.Insert(connection);
 
                 return View("Index");
@@ -125,49 +135,61 @@ namespace OutOfLensWebsite.Controllers
                 return View("Report");
             }
         }
-        
+
         public IActionResult Add(string id)
         {
+            ViewBag.PageLocation = PageLocation.Insertion;
             return ResolveView("Insertion/", new[] {"Customer", "Employee", "Package", "Package_Type"}, id);
-
         }
 
         [HttpGet]
         public IActionResult Query(string id)
         {
-            using var connection = new DatabaseConnection();
+            ViewBag.PageLocation = PageLocation.Query;
             
+            using var connection = new DatabaseConnection();
+
             if (id == null || id.ToLower() == "Employee".ToLower())
             {
-                return View("Query/Employee", new TableViewModel
-                {
-                    Data = Employee.GetTable(connection),
-                    Labels = typeof(Employee).GetProperties().Select(x => x.Name)
-                });
+                return View("Query/Employee", Employee.GetTable(connection));
             }
-            
+
             return ResolveView("Query/", new[] {"Employee", "Customer"}, id);
         }
 
         public IActionResult Operation()
         {
-            var connection = new DatabaseConnection();
+            ViewBag.PageLocation = PageLocation.Operation;
             
+            var connection = new DatabaseConnection();
+
             TableViewModel model = new TableViewModel();
             model.Labels = new[] {"ID", "Nome", "Horário Entrada", "Horário Saída"};
             model.Data = EmployeeShift.GetTable(connection);
-                
+
             return View(model);
         }
 
         public IActionResult Report()
         {
+            ViewBag.PageLocation = PageLocation.Report;
             return View();
         }
 
         public IActionResult Agenda()
         {
+            ViewBag.PageLocation = PageLocation.Agenda;
             return View();
+        }
+
+        public enum PageLocation
+        {
+            Home,
+            Insertion,
+            Query,
+            Report,
+            Agenda,
+            Operation
         }
     }
 }
