@@ -11,33 +11,29 @@
 <div class="container-fluid" id="page">
 	<div class="row">
 		<div id="img-fixed">
-			<h1 id="titulo-home" class="d-flex justify-content-center" style="margin-top:200px;">
-				@if (ViewBag.isLogged)
-				{
-					<span class="text-white"> Olá, @Model.Employee?.Name </span>
-				}
-				else
-				{
-					<span class="text-white"> Olá </span>
-				}
-			</h1>
+            <div class="col-12 d-flex justify-content-center text-center">
+                <h1 id="titulo-home" style="margin-top:200px;">
+                    <span class="text-white"> Sistema de Gerenciamento Out Of Lens </span>
+                </h1>
+            </div>
 		</div> 
 	</div>
 	<div class="row mx-5" style="margin-top:100px;">
 		<div class="col-12 col-lg-4 text-justify px-5 px-lg-5 mb-5 mb-lg-0">
 			<h3 class="mb-3"> Sobre nós </h3>
 			A <i> Out Of Lens </i> é um estúdio fotográfico jovem e moderno, que realiza os mais diversos tipos de serviços relacionados
-			à arte da fotografia
+			à arte da fotografia. Fazemos ensaios, fechamos pacotes e sessões - basta nos contatar e agendar uma reunião para negociação
+            de preços e datas!
 		</div>
         <div class="col-12 col-md-6 col-lg-4 text-justify px-5 px-lg-5 mb-5 mb-lg-0">
-            <h3 class="mb-3"> Sobre nós </h3>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <h3 class="mb-3"> O sistema </h3>
+            Este sistema, construído pela desenvolvedora <i> Widest View</i>, visa gerenciar a estrutura geral e as principais funções e operações
+            dentro da administração da <i> Out Of Lens</i>. Dentre as funções, estão: cadastro, consulta, agenda, operação, entre outras.
         </div>
         <div class="col-12 col-md-6 col-lg-4 text-justify px-5 px-lg-5 mb-5 mb-lg-0">
-            <h3 class="mb-3"> Sobre nós </h3>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            <h3 class="mb-3"> Aviso </h3>
+            Caso tenha "caído de paraquedas" em nosso sistema, vale à pena lembrá-lo: esse não é o site destinado a nossos clientes ou a qualquer
+            um que queira conhecer nosso trabalho. Visamos aqui apenas a administração do sistema por parte dos funcionários da <i> Out Of Lens</i>.
         </div>		
 	</div>
 </div>
