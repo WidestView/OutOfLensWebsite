@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Serialization;
 using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Asn1;
 using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
@@ -9,10 +10,14 @@ namespace OutOfLens_ASP.Models
 {
     public class EmployeeShift
     {
-        public ImmutableTableReference<Employee> Employee;
+        [JsonPropertyName("employee")]
+        public ImmutableTableReference<Employee> Employee { get; set; }
 
-        public DateTime StartTime;
-        public DateTime EndTime;
+        [JsonPropertyName("start_time")]
+        public DateTime StartTime { get; set; }
+        
+        [JsonPropertyName("end_time")]
+        public DateTime? EndTime { get; set; }
 
         public static EmployeeShift From(ArduinoLogRequest request, DatabaseConnection database)
         {
@@ -20,6 +25,12 @@ namespace OutOfLens_ASP.Models
             {
                 Employee = OutOfLensWebsite.Models.Data.Employee.FromRfid(request.RfidData(), database)
             };
+
+            if (shift.Employee == null)
+            {
+                throw new KeyNotFoundException("Employee with request's rfid was not Found");
+            }
+                
 
             return shift;
         }
@@ -47,7 +58,8 @@ namespace OutOfLens_ASP.Models
                 {
                     parameters["id"] = openShiftId;
 
-                    database.Run( "update TURNO set HORÁRIO_SAÍDA = now() where CÓDIGO_FUNCIONÁRIO = @employee and CÓDIGO = @id");
+                    database.Run( "update TURNO set HORÁRIO_SAÍDA = now() where CÓDIGO_FUNCIONÁRIO = @employee and CÓDIGO = @id",
+                        parameters);
                 }
             }
             catch (MySqlException e)
@@ -60,11 +72,39 @@ namespace OutOfLens_ASP.Models
         public static IEnumerable<Dictionary<string, object>> GetTable(DatabaseConnection connection)
         {
             return connection.Query(@"
-                select TURNO.CÓDIGO  from TURNO
+                select TURNO.CÓDIGO, NOME, HORÁRIO_ENTRADA, HORÁRIO_SAÍDA  from TURNO
                     inner join FUNCIONÁRIO on TURNO.CÓDIGO_FUNCIONÁRIO = FUNCIONÁRIO.CÓDIGO
                     inner join PESSOA on FUNCIONÁRIO.CÓDIGO_USUÁRIO = PESSOA.CÓDIGO"
                 );
             
+        }
+
+        public static EmployeeShift GetLast(DatabaseConnection connection)
+        {
+            var result = connection.Query(@"
+            select CÓDIGO as 'id', CÓDIGO_FUNCIONÁRIO as 'employee_id', HORÁRIO_ENTRADA as 'enter_time', HORÁRIO_SAÍDA  as 'exit_time'
+            from TURNO order by CÓDIGO limit 1");
+
+            if (result.Count < 0)
+            {
+                return null;
+            }
+            else
+            {
+                var row = result.First();
+                
+                int id = (int) row["employee_id"];
+                    
+                object exit = row["exit_time"];
+                    
+                return new EmployeeShift
+                {
+                    
+                    Employee = new ImmutableTableReference<Employee>(OutOfLensWebsite.Models.Data.Employee.From, id, connection),
+                    StartTime = (DateTime) row["enter_time"],
+                    EndTime = (exit == DBNull.Value ? null : (DateTime?) exit)
+                };
+            }
         }
     
     }

@@ -107,3 +107,19 @@ a[data-toggle="collapse"] {
 #back_home:hover{
     color: #999;
 }
+
+.fixed-alert {
+    position: fixed;
+    z-index: 9999;
+    
+    top: 30px;
+    right: 30px;
+    
+    min-width: 130px;
+    
+    display: flex;
+    justify-content: center;
+    
+    transition: opacity .5s;
+    opacity: 0;
+}
