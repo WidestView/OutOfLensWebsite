@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -31,14 +32,22 @@ namespace OutOfLensWebsite.Controllers
                         try
                         {
                             DatabaseConnection database = new DatabaseConnection();
-                            
-                            
+
+
                             EmployeeShift.From(request, database).RegisterUsing(database);
-                                
+
                         }
                         catch (InvalidOperationException ex)
                         {
                             Console.WriteLine(ex);
+
+                            return Messages.Failure("Invalid operation");
+                        }
+                        catch (KeyNotFoundException)
+                        {
+                            Console.WriteLine("RFID not found");
+
+                            return Messages.Failure("RFID not found");
                         }
                     }
                     else
@@ -60,6 +69,21 @@ namespace OutOfLensWebsite.Controllers
             {
                 return Messages.Failure("Internal server error");
             }
+        }
+
+        [HttpGet]
+        public string LastShift()
+        {
+            var connection = new DatabaseConnection();
+
+            var shift = EmployeeShift.GetLast(connection);
+
+
+            return JsonSerializer.Serialize(shift != null ? new
+            {
+                employee_name = shift.Employee.Reference.Name,
+                is_join = shift.EndTime == null
+            } : new object());
         }
     }
 }

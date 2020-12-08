@@ -23,7 +23,7 @@ namespace OutOfLensWebsite.Models
                 throw new InvalidOperationException("ArduinoLogRequest is not rfid");
             }
 
-            return Data.Substring(1);
+            return Data.Substring(2);
 
         }
     }
