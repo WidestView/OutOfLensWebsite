@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using MySql.Data.MySqlClient;
-using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
-namespace OutOfLens_ASP.Models
+namespace OutOfLensWebsite.Models
 {
     public class EmployeeShift
     {
@@ -51,14 +50,16 @@ namespace OutOfLens_ASP.Models
                 if (openShiftId == null)
                 {
                     database.Run(
-                        "insert into TURNO(CÓDIGO_FUNCIONÁRIO, HORÁRIO_ENTRADA, HORÁRIO_SAÍDA) values (@employee, now(), NULL)",
+                        @"insert into TURNO(CÓDIGO_FUNCIONÁRIO, HORÁRIO_ENTRADA, HORÁRIO_SAÍDA) 
+                                values (@employee, now(), NULL)",
                         parameters);
                 }
                 else
                 {
                     parameters["id"] = openShiftId;
 
-                    database.Run( "update TURNO set HORÁRIO_SAÍDA = now() where CÓDIGO_FUNCIONÁRIO = @employee and CÓDIGO = @id",
+                    database.Run( @"update TURNO set HORÁRIO_SAÍDA = now()
+                                    where CÓDIGO_FUNCIONÁRIO = @employee and CÓDIGO = @id",
                         parameters);
                 }
             }

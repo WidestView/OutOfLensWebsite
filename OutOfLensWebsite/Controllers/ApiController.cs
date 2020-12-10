@@ -6,7 +6,6 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MySql.Data.MySqlClient;
-using OutOfLens_ASP.Models;
 using OutOfLensWebsite.Models;
 
 namespace OutOfLensWebsite.Controllers
@@ -26,6 +25,8 @@ namespace OutOfLensWebsite.Controllers
 
 
                 ArduinoLogRequest request = JsonSerializer.Deserialize<ArduinoLogRequest>(body);
+                
+                // ...
                 
                 try
                 {

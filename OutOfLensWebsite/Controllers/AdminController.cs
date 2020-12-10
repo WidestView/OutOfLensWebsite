@@ -1,18 +1,30 @@
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using OutOfLens_ASP.Models;
 using OutOfLensWebsite.Models;
 using OutOfLensWebsite.Models.Data;
 
 namespace OutOfLensWebsite.Controllers
 {
-    // This class does to much stuff
+    // This class does to much stuff, therefore breaking the Single Responsibility Principle.
+    // Not that our other code is SOLID or anything
     // TODO: Move into different controllers
+
 
     public class AdminController : Controller
     {
+        // TODO: Implement LoggedOnlyAttribute
+
+        private bool IsLogged()
+        {
+            return HttpContext.Session.GetInt32(HomeController.SessionLoggedId) != null;
+        }
+
         // GET
         public IActionResult Index()
         {
+            if (!IsLogged())
+                return Forbid();
+
             ViewBag.PageLocation = PageLocation.Home;
             return View();
         }
@@ -21,6 +33,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddEmployee(Employee employee)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Insertion;
 
             if (!ModelState.IsValid)
@@ -42,6 +57,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddCustomer(Customer customer)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Insertion;
 
             if (ModelState.IsValid)
@@ -61,6 +79,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddPackageType(PackageType packageType)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Insertion;
 
             if (ModelState.IsValid)
@@ -80,6 +101,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddPackage(Package package)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Insertion;
 
             if (ModelState.IsValid)
@@ -99,6 +123,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddReport(Report report)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Insertion;
 
             if (ModelState.IsValid)
@@ -118,6 +145,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddOrder(Order order)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             if (ModelState.IsValid)
             {
                 var connection = new DatabaseConnection();
@@ -133,6 +163,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddSession(Session session)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             if (ModelState.IsValid)
             {
                 var connection = new DatabaseConnection();
@@ -148,20 +181,26 @@ namespace OutOfLensWebsite.Controllers
         [HttpPost]
         public IActionResult AddRole(Role role)
         {
-             if (ModelState.IsValid)
-             {
-                 var connection = new DatabaseConnection();
-                 role.Insert(connection);
-                 return View("Insertion/Index");
-             }
-             else
-             {
-                 return View("Insertion/Role");
-             }           
+            
+            if (!IsLogged())
+                return Forbid();
+            
+            if (ModelState.IsValid)
+            {
+                var connection = new DatabaseConnection();
+                role.Insert(connection);
+                return View("Insertion/Index");
+            }
+            else
+            {
+                return View("Insertion/Role");
+            }
         }
 
         public IActionResult Add(string id)
         {
+            if (!IsLogged())
+                return Forbid();
             ViewBag.PageLocation = PageLocation.Insertion;
 
             id ??= "Index";
@@ -193,6 +232,9 @@ namespace OutOfLensWebsite.Controllers
         [HttpGet]
         public IActionResult Query(string id)
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Query;
 
             id ??= "Index";
@@ -252,6 +294,8 @@ namespace OutOfLensWebsite.Controllers
 
         public IActionResult Operation(string id)
         {
+            if (!IsLogged())
+                return Forbid();
             ViewBag.PageLocation = PageLocation.Operation;
 
             id ??= "Index";
@@ -284,16 +328,22 @@ namespace OutOfLensWebsite.Controllers
 
         public IActionResult Report()
         {
+            if (!IsLogged())
+                return Forbid();
+            
             ViewBag.PageLocation = PageLocation.Report;
             return View();
         }
 
         public IActionResult Agenda()
         {
+            if (!IsLogged())
+                return Forbid();
+            
             var connection = new DatabaseConnection();
-            
+
             ViewBag.PageLocation = PageLocation.Agenda;
-            
+
             return View(Order.ListAll(connection));
         }
 

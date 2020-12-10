@@ -7,7 +7,7 @@ namespace OutOfLensWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private const string SessionLoggedId = "__session_logged_user_id";
+        public const string SessionLoggedId = "__session_logged_user_id";
         
         public ActionResult Index()
         {
