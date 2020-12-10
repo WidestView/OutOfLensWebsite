@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -6,9 +7,13 @@ namespace OutOfLensWebsite.Models.Data
 {
     public class PackageType
     {
-        public int Id { get; private set; }
+        // [Required(ErrorMessage = "O ~ é obrigatório")]
+        // [Required(ErrorMessage = "A ~ é obrigatória")]
         
+        [Required(ErrorMessage = "O nome é obrigatório")]
         public string Name { get; set; }
+        
+        [Required(ErrorMessage = "A descrição é obrigatória")]
         public string Description { get; set; }
 
         public static PackageType From(int id, DatabaseConnection connection)

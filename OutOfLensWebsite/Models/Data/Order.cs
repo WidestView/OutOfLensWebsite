@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,9 +8,16 @@ namespace OutOfLensWebsite.Models.Data
 {
     public class Order
     {
-        public int Id { get; }
+        // [Required(ErrorMessage = "O ~ é obrigatório")]
+        // [Required(ErrorMessage = "A ~ é obrigatória")]
+        
+        [Required(ErrorMessage = "O cliente é obrigatório")]
         public TableReference<Customer> Customer { get; set; }
+        
+        [Required(ErrorMessage = "O pacote é obrigatório")]
         public TableReference<Package> Package { get; set; }
+        [Required(ErrorMessage = "A data é obrigatória")]
+        
         public DateTime Date { get; set; }
         public bool Done;
 

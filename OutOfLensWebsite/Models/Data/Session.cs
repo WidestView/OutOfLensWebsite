@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -7,10 +8,20 @@ namespace OutOfLensWebsite.Models.Data
 {
     public class Session
     {
+        
+        [Required(ErrorMessage = "A ordem é obrigatória")]
         public TableReference<Order> Order { get; set; }
+        
+        [Required(ErrorMessage = "O endereço é obrigatório")]
         public string Address { get; set; }
+        
+        [Required(ErrorMessage = "O horário de início é obrigatório")]
         public DateTime StartTime { get; set; }
+        
+        [Required(ErrorMessage = "O horário de fim é obrigatório")]
         public DateTime EndTime { get; set; }
+        
+        [Required(ErrorMessage = "A descrição é obrigatória")]
         public string Description { get; set; }
 
         public void Insert(DatabaseConnection connection)
