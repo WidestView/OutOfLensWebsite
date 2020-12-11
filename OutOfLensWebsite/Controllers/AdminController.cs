@@ -14,6 +14,7 @@ namespace OutOfLensWebsite.Controllers
     {
         // TODO: Implement LoggedOnlyAttribute
 
+
         private bool IsLogged()
         {
             return HttpContext.Session.GetInt32(HomeController.SessionLoggedId) != null;
@@ -23,7 +24,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Index()
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
 
             ViewBag.PageLocation = PageLocation.Home;
             return View();
@@ -34,7 +35,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddEmployee(Employee employee)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Insertion;
 
@@ -58,7 +59,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddCustomer(Customer customer)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Insertion;
 
@@ -80,7 +81,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddPackageType(PackageType packageType)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Insertion;
 
@@ -102,7 +103,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddPackage(Package package)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Insertion;
 
@@ -124,7 +125,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddReport(Report report)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Insertion;
 
@@ -146,7 +147,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddOrder(Order order)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             if (ModelState.IsValid)
             {
@@ -164,7 +165,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult AddSession(Session session)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             if (ModelState.IsValid)
             {
@@ -183,7 +184,7 @@ namespace OutOfLensWebsite.Controllers
         {
             
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             if (ModelState.IsValid)
             {
@@ -200,7 +201,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Add(string id)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             ViewBag.PageLocation = PageLocation.Insertion;
 
             id ??= "Index";
@@ -233,7 +234,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Query(string id)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Query;
 
@@ -295,7 +296,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Operation(string id)
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             ViewBag.PageLocation = PageLocation.Operation;
 
             id ??= "Index";
@@ -329,7 +330,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Report()
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             ViewBag.PageLocation = PageLocation.Report;
             return View();
@@ -338,7 +339,7 @@ namespace OutOfLensWebsite.Controllers
         public IActionResult Agenda()
         {
             if (!IsLogged())
-                return Forbid();
+                return NotFound();
             
             var connection = new DatabaseConnection();
 
